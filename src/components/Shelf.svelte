@@ -1,31 +1,21 @@
 <script>
     import Book from './Book.svelte'
-    export let zoom = 1;
-    export let top = '50%';
+    export let zoom, top, left;
+    export let book_zoom = 0.25
 </script>
 
-<div class="room">
-    <div class="shelf" style="--top:{top}; --zoom:{zoom}">
-      <div class="shadow"></div>
-      <div class="bookend left"></div>
-        <Book logo='SK' title='2016 - 2020' color='#fff' background_color='red' zoom=0.25 author={{
-            first_name: 'Fredrick',
-            last_name: 'Mbugua',
-        }} padding='7rem 1rem' />
+<div class="shelf" style="--top:{top}; --zoom:{zoom}; --left:{left}">
+    <div class="shadow"></div>
+    <div class="bookend left"></div>
+    <Book title='2016 - 2020' color='#fff' background_color="red" zoom={book_zoom} width="3rem" />
 
-        <Book logo='SK' title='2016 - 2020' color='#fff' background_color='#000' zoom=0.25 author={{
-            first_name: 'Fredrick',
-            last_name: 'Mbugua',
-        }} padding="7rem 3rem" />
+    <Book title='2020 - 2021' color='#fff' background_color="#000" zoom={book_zoom} width="9rem" />
 
-        <Book logo='SK' title='2016 - 2020' color='#fff' background_color="#8a008a" zoom=0.25 author={{
-            first_name: 'Fredrick',
-            last_name: 'Mbugua',
-        }} padding='7rem .6rem' />
-      <div class="bookend right"></div>
-    </div>
-  </div>
-
+    <Book title='2021 - 2023' color='#fff' background_color="#8a008a" zoom={book_zoom} width="5rem" />
+    
+    <div class="bookend right"></div>
+</div>
+  
 <style>
     .shelf {
         width: 30em;
@@ -33,7 +23,7 @@
         position: fixed;
         top: var(--top);
         zoom: var(--zoom);
-        left: 50%;
+        left: var(--left);
         margin-top: -5em;
         margin-left: -15em;
         padding: 0 3em;
@@ -54,10 +44,12 @@
 
     .shelf::before {
         left: 1em;
+        border-bottom-left-radius: 11px;
     }
 
     .shelf::after {
         right: 1em;
+        border-bottom-right-radius: 11px;
     }
 
     .shadow {

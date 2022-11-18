@@ -1,26 +1,14 @@
 <script>
-    // export let logo = 'SK';
-    // export let title = '';
-    // export let author = {
-    //     first_name: 'Fredrick',
-    //     last_name: 'Makoffu'
-    // };
-    // export let color = '#fff';
-    // export let background_color = '#8a008a';
-    // export let zoom = 0.25;
-    // export let padding = '7rem 3rem'
-
-    export let logo, title, author, color, background_color, zoom, padding;
+    export let title, color, background_color, zoom;
+    export let width = 'auto';
 </script>
-<div class="book" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}">
-    <p class="pad-wide"> {logo} </p> 
+
+<div class="book" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}">
+    <div class="pad-wide"></div>
     <div>
-        <p class="book-title uppercase" style="--padding: {padding}"> {title} </p>
+        <p class="book-title uppercase"> {title} </p>
     </div>
-    <p class="pad-wide grid uppercase footer"> 
-        <span>{author.first_name}</span>
-        <span>{author.last_name}</span>
-    </p>
+    <p class="pad-wide grid uppercase"></p>
 </div>
 
 <style >
@@ -30,15 +18,17 @@
         background-image: url("https://www.transparenttextures.com/patterns/binding-light.png");
         border-radius: 3px;
         zoom: var(--zoom);
+        width: var(--width);
         flex-direction:column;
     }
 
     .book-title {
-        font-size: 15px;
+        font-size: 12px;
         writing-mode: vertical-rl;
         text-orientation: mixed;
-        padding: var(--padding);
-        letter-spacing: 4px;
+        padding: 7rem 0rem;
+        margin: auto;
+        letter-spacing: 2px;
     }
 
     .uppercase {
@@ -46,15 +36,12 @@
     }
 
     .pad-wide {
-        padding: 1rem 3rem;
-    }
-
-    .footer {
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 17px;
-        letter-spacing: 2px;
-        display: grid;
-        padding: 1rem 0rem;
+        background: #000;
+        margin: 4px 4px;
+        color: #333;
+        padding: 4px;
+        text-align: center;
+        border-radius: 3px;
+        opacity: 0.4;
     }
 </style>
