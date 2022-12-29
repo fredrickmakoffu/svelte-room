@@ -1,45 +1,33 @@
     <script>
-        export let card_one_background, card_two_background, card_three_background, zoom;
+        export let background, border, zoom, position, image, padding;
     </script>
 
-    <div class="frame" style="--zoom: {zoom}">
-    </div>
-<style scoped lang="scss">
-    .frame {
-        background-color:#ddc;
-        border:solid 5vmin #eee;
-        border-bottom-color:#fff;
-        border-left-color:#eee;
-        border-radius:2px;
-        border-right-color:#eee;
-        border-top-color:#ddd;
-        box-shadow:0 0 5px 0 rgba(0,0,0,.25) inset, 0 5px 10px 5px rgba(0,0,0,.25);
-        box-sizing:border-box;
-        display:inline-block;
-        margin:10vh 10vw;
-        height:80vh;
-        padding:8vmin;
-        position:relative;
-        text-align:center;
-        &:before {
-            border-radius:2px;
-            bottom:-2vmin;
-            box-shadow:0 2px 5px 0 rgba(0,0,0,.25) inset;
-            content:"";
-            left:-2vmin;
-            position:absolute;
-            right:-2vmin;
-            top:-2vmin;
+    <img src={image} alt=""
+        style="--background-color: {background}; 
+            --border-style: {border.style};
+            --border-width: {border.width};
+            --border-color: {border.color}bb {border.color}ff; 
+            --zoom: {zoom};
+            --top: {position.top};
+            --left: {position.left};
+            --padding: {padding};" />
+
+    <style scoped lang="scss">
+        img {
+            position: absolute;
+            top: var(--top);
+            bottom: var(--bottom);
+            left:  var(--left);
+            right: var(--right);
+            max-width: 200px;
+            width: 100%;
+            background: var(--background-color);
+            padding: var(--padding);
+            border-style: var(--border-style);
+            border-width: var(--border-width);
+            box-shadow: 2px 2px 4px rgba(0,0,0,.6);
+            zoom: var(--zoom);
+            border-radius: 15px;
+            border-color: var(--border-color);
         }
-        &:after {
-            border-radius:2px;
-            bottom:-2.5vmin;
-            box-shadow: 0 2px 5px 0 rgba(0,0,0,.25);
-            content:"";
-            left:-2.5vmin;
-            position:absolute;
-            right:-2.5vmin;
-            top:-2.5vmin;
-        }
-    }
-</style>
+    </style>
