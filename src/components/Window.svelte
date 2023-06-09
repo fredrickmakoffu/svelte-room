@@ -1,38 +1,29 @@
 
 <script>
-    export let background, border, zoom, position;
+    export let background, border, zoom, position, height, width;
 </script>
 
 <div class="window" style="--background-color: {background}bb; 
     --border-style: {border.style};
     --border-width: {border.width};
+    --border-style: {border.style};
+    --border-width: {border.width};
     --border-color: {border.color}bb {border.color}ff; 
     --zoom: {zoom};
+    --height: {height};
+    --width: {width};
     --top: {position.top};
     --left: {position.left};">
+    
     <div class="window-bar"></div>
 
-    <div class="window-bar" style="left: 138px; background: #333; top: 20px;"></div>
+    <div class="window-bar" style="left: 49%; background: #333; top: 20px;"></div>
     
-    <div class="window-bar" style="left: 222px"></div>
+    <div class="window-bar" style="left: 81%"></div>
 
-    <div class="window-bar" style="
-        left: 180px;
-        height: 47%;
-        width: 42%;
-        background: none;
-        border-bottom: 19px solid rgb(51, 48, 0);
-        border-radius: 145px;
-        transform: rotate(91deg);"></div>
+    <div class="window-bar moon left"></div>
 
-    <div class="window-bar" style="left: -7px;
-        height: 47%;
-        width: 42%;
-        background: none;
-        top: 160px;
-        border-bottom: 19px solid rgb(51, 48, 0);
-        border-radius: 145px;
-        transform: rotate(270deg);"></div>
+    <div class="window-bar moon right"></div>
 </div>
 
 <style lang="scss" scoped>
@@ -42,8 +33,8 @@
         bottom: var(--bottom);
         left:  var(--left);
         right: var(--right);
-        height: 35%;
-        width: 13%;
+        height: var(--height);
+        width: var(--width);
         padding: 30px;
         background: var(--background-color);
         border-color: var(--border-color);
@@ -62,6 +53,25 @@
         width: 13px;
         border-radius: 40px;
         top: 40px;
-        left: 50px;
+        left: 15%;
+    }
+
+    .window-bar.moon {
+        height: 35%;
+        width: 35%;
+        background: none;
+        border-bottom: 19px solid rgb(51, 48, 0);
+        border-radius: 145px;
+    }
+
+    .window-bar.moon.left {
+        left: 55%;
+        transform: rotate(91deg);
+    }
+
+    .window-bar.moon.right {
+        left: 10%;
+        top: 160px;
+        transform: rotate(270deg);
     }
 </style>

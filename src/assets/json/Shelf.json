@@ -1,0 +1,108 @@
+[
+  {
+    "zoom": 0.9,
+    "left": "20%",
+    "top": "15%",
+    "first_shelf_books": [
+      [
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "red",
+          "zoom": "0.3",
+          "width": "3rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#000",
+          "zoom": "0.3",
+          "width": "9rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#8a008a",
+          "zoom": "0.3",
+          "width": "5rem"
+        }
+      ],
+      [
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "red",
+          "zoom": "0.3",
+          "width": "3rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#000",
+          "zoom": "0.3",
+          "width": "9rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#8a008a",
+          "zoom": "0.3",
+          "width": "5rem"
+        }
+      ]
+    ]
+  },
+  {
+    "zoom": 0.9,
+    "left": "20%",
+    "top": "40%",
+    "first_shelf_books": [
+      [
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "red",
+          "zoom": "0.3",
+          "width": "3rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#000",
+          "zoom": "0.3",
+          "width": "9rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#8a008a",
+          "zoom": "0.3",
+          "width": "5rem"
+        }
+      ],
+      [
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "red",
+          "zoom": "0.3",
+          "width": "3rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#000",
+          "zoom": "0.3",
+          "width": "9rem"
+        },
+        {
+          "title": "2016 - 2020",
+          "color": "#fff",
+          "background_color": "#8a008a",
+          "zoom": "0.3",
+          "width": "5rem"
+        }
+      ]
+    ]
+  }
+]

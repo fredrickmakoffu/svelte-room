@@ -1,22 +1,30 @@
 <script>
     import Book from './Book.svelte'
-    export let zoom, top, left;
-    export let book_zoom = 0.25
+    export let zoom, top, left, books;
 </script>
 
 <div class="shelf" style="--top:{top}; --zoom:{zoom}; --left:{left}">
     <div class="shadow"></div>
-    <div class="bookend left"></div>
-    <Book title='2016 - 2020' color='#fff' background_color="red" zoom={book_zoom} width="3rem" />
-
-    <Book title='2020 - 2021' color='#fff' background_color="#000" zoom={book_zoom} width="9rem" />
-
-    <Book title='2021 - 2023' color='#fff' background_color="#8a008a" zoom={book_zoom} width="5rem" />
     
-    <div class="bookend right"></div>
+    {#each books as section}
+        <div class="d-inline-flex shelf-section">
+            <div class="bookend left"></div>
+            
+            {#each section as {title, color, background_color, zoom, width}}
+                <Book title={title} color={color} background_color={background_color} zoom={zoom} width={width} />
+            {/each}
+            
+            <div class="bookend right"></div>
+        </div>
+    {/each}
+
 </div>
   
-<style>
+<style scoped>
+    .d-inline-flex {
+        display: inline-flex;
+    }
+    
     .shelf {
         width: 30em;
         border-bottom: 1em solid #d97a53;
@@ -54,8 +62,8 @@
 
     .shadow {
         position: absolute;
-        bottom: -2.7em;
-        height: 1.7em;
+        bottom: -1.7em;
+        height: 1em;
         left: 1em;
         right: 1em;
         z-index: -1;
@@ -66,6 +74,7 @@
         width: 3em;
         height: 4em;
         position: relative;
+        top: 3rem;
     }
 
     .bookend::before {
@@ -89,5 +98,9 @@
 
     .bookend.left::after{
         right: 0;
+    }
+
+    .right {
+        margin-right: 3rem;
     }
   </style>

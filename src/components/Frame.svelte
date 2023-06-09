@@ -6,6 +6,7 @@
         style="--background-color: {background}; 
             --border-style: {border.style};
             --border-width: {border.width};
+            --border-radius: {border.radius};
             --border-color: {border.color}bb {border.color}ff; 
             --zoom: {zoom};
             --top: {position.top};
@@ -27,7 +28,7 @@
             border-width: var(--border-width);
             box-shadow: 2px 2px 4px rgba(0,0,0,.6);
             zoom: var(--zoom);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border-color: var(--border-color);
         }
     </style>

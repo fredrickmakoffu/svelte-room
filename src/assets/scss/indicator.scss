@@ -1,0 +1,11 @@
+@import url('panchang.css');
+
+.indicator {
+    position: absolute;
+    width: -webkit-fill-available;
+    padding: 9px;
+    top: 50rem;
+    z-index: -1;
+    text-align: center;
+    font-family: 'Panchang-Extrabold', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
