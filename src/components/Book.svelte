@@ -1,9 +1,19 @@
 <script>
     export let title, color, background_color, zoom;
     export let width = 'auto';
+
+    function handleHover() {
+        // set title in element with id=information
+        document.getElementById('information').innerHTML = title;
+    }
+
+    function handleFocus() {
+        console.log('focus')
+    } 
+
 </script>
 
-<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}">
+<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus}>
     <div class="pad-wide"></div>
     <div>
         <p class="book-title uppercase"> {title} </p>
@@ -27,7 +37,7 @@
         font-size: 12px;
         writing-mode: vertical-rl;
         text-orientation: mixed;
-        padding: 7rem 0rem;
+        padding: 6rem 0rem;
         margin: auto;
         letter-spacing: 2px;
         font-weight: 600;

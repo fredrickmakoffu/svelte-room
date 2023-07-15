@@ -101,21 +101,21 @@
       "first_shelf_books": [
         [
           {
-            "title": "२०१२-२०१६ ई",
+            "title": "प्रारम्भः",
             "color": "#fff",
             "background_color": "red",
             "zoom": "0.3",
             "width": "3rem"
           },
           {
-            "title": "२०१२-२०१६ ई",
+            "title": "एकस्य नायकस्य यात्रा",
             "color": "#fff",
             "background_color": "#000",
             "zoom": "0.3",
             "width": "9rem"
           },
           {
-            "title": "२०१२-२०१६ ई",
+            "title": "एकस्य नायकस्य विश्रामः",
             "color": "#fff",
             "background_color": "#8a008a",
             "zoom": "0.3",
@@ -124,14 +124,14 @@
         ],
         [
           {
-            "title": "२०१२-२०१६ ई",
+            "title": "एकस्य नायकस्य यात्रा",
             "color": "#fff",
             "background_color": "red",
             "zoom": "0.3",
             "width": "3rem"
           },
           {
-            "title": "२०१२-२०१६ ई",
+            "title": "एकस्य नायकस्य यात्रा",
             "color": "#fff",
             "background_color": "#000",
             "zoom": "0.3",
@@ -288,5 +288,12 @@
     top: 46rem;
     background-image: url('https://www.transparenttextures.com/patterns/back-pattern.png');
     z-index: -1;"></div>
+
+    <div id="information" style="position: absolute;
+    width: -webkit-fill-available;
+    text-align: center;
+    top: 50rem;
+    z-index: -1;">Hello</div>
+    
 
 </main> 
