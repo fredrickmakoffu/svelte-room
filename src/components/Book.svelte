@@ -4,7 +4,7 @@
 
     function handleHover() {
         // set title in element with id=information
-        document.getElementById('information').innerHTML = title;
+        document.getElementById('information-title').innerHTML = title;
     }
 
     function handleFocus() {
@@ -16,7 +16,7 @@
 <div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus}>
     <div class="pad-wide"></div>
     <div>
-        <p class="book-title uppercase"> {title} </p>
+        <p class="book-title uppercase"> एकस्य नायकस्य यात्रा </p>
     </div>
     <p class="pad-wide grid uppercase"></p>
 </div>
@@ -31,6 +31,7 @@
         width: var(--width);
         flex-direction:column;
         border-radius: 2px;
+        cursor: pointer;
     }
 
     .book-title {

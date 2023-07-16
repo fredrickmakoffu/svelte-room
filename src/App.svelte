@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import Shelf from './components/Shelf.svelte'
   import Frame from './components/Frame.svelte'
   import Window from './components/Window.svelte'
@@ -8,7 +9,8 @@
   import Radio from './components/Radio.svelte'
   import Clock from './components/Clock.svelte'
   import anime from 'animejs/lib/anime.es.js';
-  import { onMount } from 'svelte';
+  import Information from './components/Information.svelte';
+  import OpenBook from './components/OpenBook.svelte';
 
   onMount(async () => {
     anime({
@@ -101,25 +103,25 @@
       "first_shelf_books": [
         [
           {
-            "title": "प्रारम्भः",
+            "title": "2016 - 2019",
             "color": "#fff",
             "background_color": "red",
             "zoom": "0.3",
-            "width": "3rem"
+            "width": "5rem"
           },
           {
-            "title": "एकस्य नायकस्य यात्रा",
+            "title": "2019 - 2021",
             "color": "#fff",
             "background_color": "#000",
             "zoom": "0.3",
-            "width": "9rem"
+            "width": "12rem"
           },
           {
-            "title": "एकस्य नायकस्य विश्रामः",
+            "title": "2022 - present",
             "color": "#fff",
             "background_color": "#8a008a",
             "zoom": "0.3",
-            "width": "5rem"
+            "width": "6rem"
           }
         ],
         [
@@ -289,11 +291,17 @@
     background-image: url('https://www.transparenttextures.com/patterns/back-pattern.png');
     z-index: -1;"></div>
 
-    <div id="information" style="position: absolute;
-    width: -webkit-fill-available;
-    text-align: center;
-    top: 50rem;
-    z-index: -1;">Hello</div>
-    
+    <Information />   
+
+    <OpenBook />
 
 </main> 
+
+<style lang="scss">
+  .gradient-blue {
+    background: linear-gradient(105.49deg, teal, #af6a0f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;      
+  }
+</style>
