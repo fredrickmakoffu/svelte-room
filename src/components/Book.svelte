@@ -1,19 +1,24 @@
 <script>
-    export let title, color, background_color, zoom;
+    export let title, color, background_color, zoom, open_book;
     export let width = 'auto';
 
     function handleHover() {
         // set title in element with id=information
         document.getElementById('information-title').innerHTML = title;
+        console.log(title);
     }
 
     function handleFocus() {
-        console.log('focus')
+        open_book = !open_book;
     } 
+
+    function handleClick() {
+        open_book = !open_book;
+    }
 
 </script>
 
-<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus}>
+<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus} on:click={handleClick}>
     <div class="pad-wide"></div>
     <div>
         <p class="book-title uppercase"> एकस्य नायकस्य यात्रा </p>

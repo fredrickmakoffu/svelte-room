@@ -1,6 +1,6 @@
 <script>
     import Book from './Book.svelte'
-    export let zoom, top, left, books;
+    export let zoom, top, left, books, open_book;       
 </script>
 
 <div class="shelf" style="--top:{top}; --zoom:{zoom}; --left:{left}">
@@ -11,7 +11,7 @@
             <div class="bookend left"></div>
             
             {#each section as {title, color, background_color, zoom, width}}
-                <Book title={title} color={color} background_color={background_color} zoom={zoom} width={width} />
+                <Book title={title} color={color} background_color={background_color} zoom={zoom} width={width} bind:open_book={open_book} />
             {/each}
             
             <div class="bookend right"></div>

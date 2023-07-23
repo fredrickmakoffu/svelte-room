@@ -222,6 +222,8 @@
       background_color: "linear-gradient(to bottom, #e5e5e5 0%, #d9d9d9 50%, #c2c2c2 100%)"
     }
   ]
+
+  let open_book = false
   
 </script>
 
@@ -231,7 +233,8 @@
       top={item.top} 
       left={item.left} 
       zoom={item.zoom} 
-      books={item.first_shelf_books} />   
+      books={item.first_shelf_books}
+      bind:open_book={open_book} />   
   {/each}
 
   {#each frames as {background, border, zoom, position, image, padding}}
@@ -293,7 +296,9 @@
 
     <Information />   
 
-    <OpenBook />
+    {#if open_book}
+      <OpenBook bind:open_book={open_book} />   
+    {/if}
 
 </main> 
 

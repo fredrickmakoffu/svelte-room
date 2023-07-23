@@ -1,11 +1,32 @@
+<script>
+  export let open_book;
+
+  function triggerBook() {
+    open_book = !open_book;
+  }
+
+</script>
+
 <div class="container">
   <div class="open-book">
-    <div class="content">
-      <h5 class="content-title">2010 - 2012</h5>
+    <div class="open-pages">
+      <div class="left-page">
+        <div class="content">
+          <p class="content-title">2010 - 2012</p>
+          <h6 class="content-tagline">Backend Software Engineer</h6>
+        </div>
+      </div>
+      <div class="right-page">
+        <p class="content-text"> &bull; Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+        <p class="content-text"> &bull; Totam impedit atque molestiae animi vel dignissimos asperiores rerum quis aspernatur quasi</p>
+        <p class="content-text"> &bull;  numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.</p>
+        <p class="content-text"> &bull; numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.</p>
+        <p class="page-number"> &rarr; </p>
+      </div>
     </div>
   </div>
 
-  <div class="backdrop"></div>
+  <div class="backdrop" on:click={triggerBook}></div>
 </div>
 
 <style scoped>
@@ -16,14 +37,37 @@
     position: absolute;
     z-index: -1;
     opacity: 0.2;
+    z-index: 1;
   }
 
   .content-title {
     text-align: center;
-    padding-top: 10px;
+    margin: 0;
+    font-family: 'Supreme', sans-serif; 
+    font-size: 7px;
+  }
+
+  .content-tagline {
+    text-align: center;
     margin: 0;
     font-family: 'Supreme', sans-serif; 
     font-weight: 900;
+    font-size: 10px;
+  }
+
+  .content-text {
+    font-size: 6.5px;
+    line-height: 8px;
+  }
+
+  .page-number {
+    font-size: 8px;
+    font-weight: 900;
+    float: right;
+    margin-right: 10px;
+    margin-top: 1px;
+    color: teal;
+    cursor: pointer;
   }
 
   .container {
@@ -43,6 +87,7 @@
     position: relative;
     margin: auto;
     transform: scale(2.5);
+    z-index: 2;
   }
 
   .open-book:before, .open-book:after {
@@ -65,7 +110,7 @@
     right: 4px;
   }
 
-  .open-book div {
+  .open-book .open-pages {
     width: 100%;
     height: 100%;
     border-radius: 13px;
@@ -74,6 +119,25 @@
     perspective: 600px;
     box-shadow: 0 4px 6px var(--shadow);
     background-image: var(--background);
+    display: flex;
+  }
+
+  .left-page {
+    width: 50%;
+    float: left;
+    display: flex;
+    padding: 5px;
+    border-right: 1px #eee solid;
+  }
+
+  .right-page {
+    width: 50%;
+    float: right;
+    padding: 5px;
+  }
+
+  .content {
+    margin: auto;
   }
 
  </style>
