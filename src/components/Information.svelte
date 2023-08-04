@@ -1,5 +1,6 @@
 <div id="information" class="information">
   <div id="information-title" class="gradient-blue">Hello</div>
+  <p class="information-tagline">Test Tagline</p>
 </div>
 
 
@@ -8,7 +9,7 @@
     position: absolute;
     width: -webkit-fill-available;
     text-align: center;
-    top: 50rem;
+    top: 49rem;
     z-index: -1;
   }
 
@@ -20,6 +21,14 @@
     font-family: 'Panchang', sans-serif;
     font-size: 6rem;
     font-weight: 900;    
+  }
+
+  .information-tagline {
+    font-family: 'Supreme', sans-serif; 
+    margin: 0;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    font-weight: 600;
   }
 </style>
 

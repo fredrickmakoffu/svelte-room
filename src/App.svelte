@@ -104,13 +104,15 @@
         [
           {
             "title": "2016 - 2019",
+            "tagline": "Backend Software Engineer", 
             "color": "#fff",
             "background_color": "red",
             "zoom": "0.3",
-            "width": "5rem"
+            "width": "5rem",
           },
           {
             "title": "2019 - 2021",
+            "tagline": "Fullstack Software Engineer",
             "color": "#fff",
             "background_color": "#000",
             "zoom": "0.3",
@@ -118,6 +120,7 @@
           },
           {
             "title": "2022 - present",
+            "tagline": "Backend Software Engineer",
             "color": "#fff",
             "background_color": "#8a008a",
             "zoom": "0.3",
@@ -224,6 +227,8 @@
   ]
 
   let open_book = false
+
+  let store_open_book = {}
   
 </script>
 
@@ -234,7 +239,8 @@
       left={item.left} 
       zoom={item.zoom} 
       books={item.first_shelf_books}
-      bind:open_book={open_book} />   
+      bind:open_book={open_book}
+      bind:store_open_book={store_open_book} />   
   {/each}
 
   {#each frames as {background, border, zoom, position, image, padding}}
@@ -297,7 +303,7 @@
     <Information />   
 
     {#if open_book}
-      <OpenBook bind:open_book={open_book} />   
+      <OpenBook bind:open_book={open_book} bind:store_open_book={store_open_book} />   
     {/if}
 
 </main> 

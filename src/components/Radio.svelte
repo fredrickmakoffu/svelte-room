@@ -1,3 +1,14 @@
+<script>
+    import { onMount } from 'svelte';
+    onMount(async () => {
+        //  play music from spotify
+        //  https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
+        //  https://developer.spotify.com/documentation/web-playback-sdk/quick-start/# -->
+
+        
+	});
+  
+</script>
 <div class="radio float" />
 
 <style>

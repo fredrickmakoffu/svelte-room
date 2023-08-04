@@ -1,5 +1,5 @@
 <script>
-  export let open_book;
+  export let open_book, store_open_book;
 
   function triggerBook() {
     open_book = !open_book;
@@ -12,15 +12,15 @@
     <div class="open-pages">
       <div class="left-page">
         <div class="content">
-          <p class="content-title">2010 - 2012</p>
-          <h6 class="content-tagline">Backend Software Engineer</h6>
+          <p class="content-title"> { store_open_book.title } </p>
+          <h6 class="content-tagline">{ store_open_book.tagline }</h6>
         </div>
       </div>
       <div class="right-page">
-        <p class="content-text"> &bull; Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-        <p class="content-text"> &bull; Totam impedit atque molestiae animi vel dignissimos asperiores rerum quis aspernatur quasi</p>
-        <p class="content-text"> &bull;  numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.</p>
-        <p class="content-text"> &bull; numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.</p>
+        {#each store_open_book.points as point}
+          <p class="content-text"> &bull; {point}.</p>
+        {/each}
+
         <p class="page-number"> &rarr; </p>
       </div>
     </div>
@@ -82,12 +82,13 @@
     --page: rgba(235, 232, 232, 0.36);
     --page-fold: rgba(250, 250, 250, 0.52);
     --duration: 3s;
-    width: 200px;
+    width: 240px;
     height: 140px;
     position: relative;
     margin: auto;
     transform: scale(2.5);
     z-index: 2;
+    
   }
 
   .open-book:before, .open-book:after {

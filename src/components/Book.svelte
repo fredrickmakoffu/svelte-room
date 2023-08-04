@@ -1,11 +1,10 @@
 <script>
-    export let title, color, background_color, zoom, open_book;
+    export let title, tagline, color, background_color, zoom, open_book, store_open_book;
     export let width = 'auto';
 
     function handleHover() {
         // set title in element with id=information
         document.getElementById('information-title').innerHTML = title;
-        console.log(title);
     }
 
     function handleFocus() {
@@ -14,6 +13,17 @@
 
     function handleClick() {
         open_book = !open_book;
+
+        store_open_book = {
+            title: title,
+            tagline: tagline,
+            points: [
+                'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+                'Totam impedit atque molestiae animi vel dignissimos asperiores rerum quis aspernatur quasi',
+                'numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.',
+                'numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.'
+            ]
+        };
     }
 
 </script>
