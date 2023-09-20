@@ -1,10 +1,11 @@
 <script>
-    export let title, tagline, color, background_color, zoom, open_book, store_open_book;
+    export let title, tagline, points, color, background_color, zoom, open_book, store_open_book;
     export let width = 'auto';
 
     function handleHover() {
         // set title in element with id=information
         document.getElementById('information-title').innerHTML = title;
+        document.getElementById('information-tagline').innerHTML = tagline;
     }
 
     function handleFocus() {
@@ -17,21 +18,20 @@
         store_open_book = {
             title: title,
             tagline: tagline,
-            points: [
-                'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-                'Totam impedit atque molestiae animi vel dignissimos asperiores rerum quis aspernatur quasi',
-                'numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.',
-                'numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.'
-            ]
+            points: points
         };
+    }
+
+    function handleKeyUp() {
+
     }
 
 </script>
 
-<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus} on:click={handleClick}>
+<div class="book float" style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"  on:mouseover={handleHover} on:focus={handleFocus} on:click={handleClick} on:keyup={handleKeyUp}>
     <div class="pad-wide"></div>
     <div>
-        <p class="book-title uppercase"> एकस्य नायकस्य यात्रा </p>
+        <p class="book-title uppercase"> {title} </p>
     </div>
     <p class="pad-wide grid uppercase"></p>
 </div>

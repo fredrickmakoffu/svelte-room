@@ -10,8 +10,8 @@
         <div class="d-inline-flex shelf-section">
             <div class="bookend left"></div>
             
-            {#each section as {title, tagline, color, background_color, zoom, width}}
-                <Book title={title} tagline={tagline} color={color} background_color={background_color} zoom={zoom} width={width} bind:open_book={open_book} bind:store_open_book={store_open_book} />
+            {#each section as {title, tagline, points, color, background_color, zoom, width}}
+                <Book title={title} tagline={tagline} points={points} color={color} background_color={background_color} zoom={zoom} width={width} bind:open_book={open_book} bind:store_open_book={store_open_book} />
             {/each}
             
             <div class="bookend right"></div>

@@ -43,7 +43,7 @@
   .content-title {
     text-align: center;
     margin: 0;
-    font-family: 'Supreme', sans-serif; 
+    font-family: 'Clash Grotesk', sans-serif;
     font-size: 7px;
   }
 
@@ -58,6 +58,7 @@
   .content-text {
     font-size: 6.5px;
     line-height: 8px;
+    font-family: 'Supreme', sans-serif; 
   }
 
   .page-number {

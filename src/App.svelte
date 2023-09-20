@@ -12,6 +12,7 @@
   import Information from './components/Information.svelte';
   import OpenBook from './components/OpenBook.svelte';
 
+  // mount anime
   onMount(async () => {
     anime({
         targets: '.float',
@@ -25,209 +26,23 @@
         loop: true
     });
 	});
+
+  // import Json Data
+  import FramesJson from './assets/json/Frame.json'
+  import WindowsJson from './assets/json/Window.json'
+  import DeskJson from './assets/json/Desk.json'
+  import LaptopJson from './assets/json/Laptop.json'
+  import ShelfJson from './assets/json/Shelf.json'
   
-  let frames = [
-    {
-      background: '#eee',
-      position: {
-        top: "18.7rem",
-        left: "115rem"
-      },
-      border: {
-        color:"#333",
-        style: "solid",
-        width: "15px",
-        radius: "15px"
-      },
-      zoom: 0.4,
-      padding: "0px",
-      image: 'https://images.unsplash.com/photo-1583407723467-9b2d22504831?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80'
-    },
-    {
-      background: '#eee',
-      position: {
-        top: "42rem",
-        left: "115rem"
-      },
-      border: {
-        color:"#333",
-        style: "solid",
-        width: "15px",
-        radius: "15px"
-      },
-      zoom: 0.4,
-      padding: "0px",
-      image: 'https://images.unsplash.com/photo-1583407723467-9b2d22504831?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80'
-    },
-    {
-      background: '#eee',
-      position: {
-        top: "14rem",
-        left: "48.3rem"
-      },
-      border: {
-        color:"#333",
-        style: "solid",
-        width: "5px",
-        radius: "6px"
-      },
-      zoom: 1.12,
-      padding: "0",
-      image: 'https://images.unsplash.com/photo-1662572091420-95992f339784?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    }
-  ]
-
-  let windows = [
-    {
-      background: '#fafafa',
-      position: {
-        top: "7.7rem",
-        left: "80rem"
-      },
-      border: {
-        color:"#333000",
-        style: "solid",
-        width: "15px"
-      },
-      height: "18rem",
-      width: "16rem",
-      zoom: 1
-    }
-  ]
-
-  let shelf = [
-    {
-      "zoom": 0.9,
-      "left": "20%",
-      "top": "15%",
-      "first_shelf_books": [
-        [
-          {
-            "title": "2016 - 2019",
-            "tagline": "Backend Software Engineer", 
-            "color": "#fff",
-            "background_color": "red",
-            "zoom": "0.3",
-            "width": "5rem",
-          },
-          {
-            "title": "2019 - 2021",
-            "tagline": "Fullstack Software Engineer",
-            "color": "#fff",
-            "background_color": "#000",
-            "zoom": "0.3",
-            "width": "12rem"
-          },
-          {
-            "title": "2022 - present",
-            "tagline": "Backend Software Engineer",
-            "color": "#fff",
-            "background_color": "#8a008a",
-            "zoom": "0.3",
-            "width": "6rem"
-          }
-        ],
-        [
-          {
-            "title": "एकस्य नायकस्य यात्रा",
-            "color": "#fff",
-            "background_color": "red",
-            "zoom": "0.3",
-            "width": "3rem"
-          },
-          {
-            "title": "एकस्य नायकस्य यात्रा",
-            "color": "#fff",
-            "background_color": "#000",
-            "zoom": "0.3",
-            "width": "9rem"
-          }
-        ]
-      ]
-    },
-    {
-      "zoom": 0.9,
-      "left": "20%",
-      "top": "40%",
-      "first_shelf_books": [
-        [
-          {
-            "title": "२०१२-२०१६ ई",
-            "color": "#fff",
-            "background_color": "#000",
-            "zoom": "0.3",
-            "width": "9rem"
-          }
-        ]
-      ]
-    }
-  ]
-
-  let desks = [
-    {
-      desk_block_left: {
-        background: "#33300077",
-        width: "40rem",
-        padding: "12px 0",
-        border: {
-          radius: "5px",
-          bottom_left_radius: "3px",
-          bottom_right_radius: "3px",
-        }, 
-        position: "absolute",
-        top: "35rem",
-        left: "69rem"
-      },
-      desk_block_right: {
-        background: "#333000",
-        width: "40rem",
-        padding: "2px 0",
-        border: {
-          radius: "5px",
-          top_left_radius: "3px",
-          top_right_radius: "3px",
-        },
-        position: "absolute",
-        top: "36.7rem",
-        left: "69rem"
-      },
-      desk_leg_left: {
-        background: "#333000",
-        height: "10rem",
-        padding: "0px 10px",
-        border: {
-          radius: "5px 21px"
-        },
-        position: "absolute",
-        top: "38rem",
-        left: "72rem",
-      },
-      desk_leg_right: {
-        background: "#333000",
-        height: "10rem",
-        padding: "0px 10px",
-        border: { 
-          radius: "21px 5px"
-        },
-        position: "absolute",
-        top: "38rem",
-        left: "104rem"
-      }
-    }
-  ]
-
-  let laptops = [
-    {
-      width: "10rem", 
-      top: "26.3rem", 
-      left: "93rem", 
-      border_radius: "10px",
-      background_color: "linear-gradient(to bottom, #e5e5e5 0%, #d9d9d9 50%, #c2c2c2 100%)"
-    }
-  ]
-
+  // set Json
+  let frames = FramesJson
+  let windows = WindowsJson
+  let desks = DeskJson
+  let laptops = LaptopJson
+  let shelf = ShelfJson
+  
+  // set data in open book
   let open_book = false
-
   let store_open_book = {}
   
 </script>

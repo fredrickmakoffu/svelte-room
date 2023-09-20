@@ -1,0 +1,17 @@
+[
+    {
+        "background": "#fafafa",
+        "position": {
+          "top": "7.7rem",
+          "left": "80rem"
+        },
+        "border": {
+          "color":"#333000",
+          "style": "solid",
+          "width": "15px"
+        },
+        "height": "18rem",
+        "width": "16rem",
+        "zoom": 1
+    }
+]

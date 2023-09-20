@@ -1,6 +1,11 @@
+<script>
+  let title = 'Room'
+  let tagline = 'take a look around'
+</script>
+
 <div id="information" class="information">
-  <div id="information-title" class="gradient-blue">Hello</div>
-  <p class="information-tagline">Test Tagline</p>
+  <div id="information-title" class="gradient-blue">{title}</div>
+  <p class="information-tagline">{tagline}</p>
 </div>
 
 
@@ -24,11 +29,13 @@
   }
 
   .information-tagline {
-    font-family: 'Supreme', sans-serif; 
+    font-family: 'Clash Grotesk', sans-serif;
     margin: 0;
     letter-spacing: 1px;
     font-size: 1.2rem;
-    font-weight: 600;
+    color: #666666;
+    position: relative;
+    bottom: 10px;
   }
 </style>
 
