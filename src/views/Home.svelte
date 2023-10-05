@@ -123,7 +123,7 @@
       color: transparent;
       width: 100%;
       height: 100vh;
-      -webkit-text-stroke: 0.5px $text-color;
+      -webkit-text-stroke: 1px $text-color;
       z-index: 2;
 
       .tagline {
