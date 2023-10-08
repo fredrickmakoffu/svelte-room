@@ -1,5 +1,6 @@
 <script>
   import Banner from "../components/Home/Banner.svelte";
+  import Triangle from "../components/Home/Triangle.svelte";
 
   //this function keeps the circle tracked to mouse movement by moving it every time the cursor moves
   document.addEventListener("mousemove", (e) => {
@@ -16,11 +17,43 @@
     circle.style.top = `${mouse_y - halfCircleSize}px`;
   });
 
-  function setBannerAnimation() {
+  async function setBannerAnimation() {
     // set tagline in the filled text to be color blue
     document.getElementById("tagline").classList.add("color-blue");
 
+    // update circle background with linear gradient
+    document.getElementById("circle").style.background = "linear-gradient(105.49deg, #119DA4, #c8d5bb)";
+
     let i = 1;
+    await setBanners(i).then(() => {
+      let j = 1
+      setTimeout(() => {
+        setTriangles(j),
+        setDescription()
+      }, 2000);
+    });
+  }
+
+  async function setDescription() {
+    const description = document.querySelector("p.footer-description");
+    description.classList.remove("d-none");
+  }
+
+  async function setTriangles(j) {
+    const activateTriangles = setInterval(function () {
+      const triangle = document.getElementById(`triangle__${j}`);
+      if(triangle == null) {
+        return;
+      }
+      triangle.classList.remove("d-none");
+      j++;
+      if (j > 4) {
+        clearInterval(activateTriangles); // Stop the interval when all banners are animated
+      }
+    }, 1000);
+  }
+
+  async function setBanners(i) {
     const intervalId = setInterval(function () {
       const banner = document.getElementById(`banner__${i}`);
       if(banner == null) {
@@ -76,22 +109,26 @@
 
 <div id="home">
   <span class="filled-text">
+    <div id="triangles" class="triangle-positions">
+      <span id="triangle__1" class="d-none" style="left: 0; top: inherit"><Triangle /></span>
+      <span id="triangle__2" class="d-none" style="left: 5rem; top: inherit"> <Triangle /> </span>
+      <span id="triangle__3" class="d-none" style="left: 10rem; top: inherit"> <Triangle /> </span>
+    </div>
     <span class="d-flex">
       <h4 class="title">FIND</h4>
       <h2 class="tagline" id="tagline">FRED</h2>
       <h4 class="footer">ONLINE</h4>
+      <p class="footer-description d-none">A discography of STUFF that I've done</p>
     </span>
   </span>
 
-  <span class="outlined-text">
+  <span class="outlined-text">  
     <span class="d-flex">
       <h4 class="title">FIND</h4>
       <h2 class="tagline" on:mouseover={setBannerAnimation} on:focus={testFocus}>FRED</h2>
-      <h4 class="footer">ONLINE</h4>
+      <h4 class="footer">ONLINE</h4> 
     </span>
   </span>
-
-  <h4>Choose your adventure</h4>
 
   <div id="circle"></div>
 </div>
@@ -102,6 +139,11 @@
   $circle-color: $bg-color;
   $circle-size: 100px;
 
+  :global(.triangle-positions) {
+    position: absolute;
+    top: 35%;
+    left: 35%;
+  }
   :global(.color-blue) {
     color: #119DA4!important;
   }
@@ -169,6 +211,19 @@
         right: 8.5rem;
         top: 8.6rem;
       }
+
+      .footer-description {
+        font-family: 'Supreme', "Clash Grotesk", sans-serif;
+        position: absolute;
+        z-index: 3;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        right: 8.5rem;
+        top: 11.6rem;
+        color: #47585c;
+        transition: display 2s ease-in-out;
+      }
     }
 
     &.outlined-text {
@@ -232,7 +287,6 @@
     width: $circle-size;
     border-radius: 50%;
     background: $circle-color;
-    // background: linear-gradient(105.49deg, #1D8CEC, #3db9dc);
     background: linear-gradient(105.49deg, #47585c, #c8d5bb);
     border: 10px double $text-color;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -240,6 +294,11 @@
     left: calc(50vw - 100px);
     z-index: 4;
     transition: border-color 1s ease-in-out;
+  }
+
+  // display styles
+  :global(.d-none) {
+    display: none;
   }
 </style>
 
