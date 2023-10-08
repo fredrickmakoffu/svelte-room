@@ -15,6 +15,61 @@
     circle.style.left = `${mouse_x - halfCircleSize}px`;
     circle.style.top = `${mouse_y - halfCircleSize}px`;
   });
+
+  function setBannerAnimation() {
+    // set tagline in the filled text to be color blue
+    document.getElementById("tagline").classList.add("color-blue");
+
+    let i = 1;
+    const intervalId = setInterval(function () {
+      const banner = document.getElementById(`banner__${i}`);
+      if(banner == null) {
+        return;
+      }
+
+      if (i % 2 === 0) {
+        banner.classList.add("animate-scroll-right");
+      } else {
+        banner.classList.add("animate-scroll-left");
+      }
+      console.log('banner__' + i);
+      
+      i++;
+      if (i > 10) {
+        clearInterval(intervalId); // Stop the interval when all banners are animated
+      }
+    }, 300);
+  }
+
+
+  function exitBannerAnimation() {
+    // set tagline in the filled text to be color blue
+    document.getElementById("tagline").classList.remove("color-blue");
+
+    let i = 9;
+    const intervalId = setInterval(function () {
+      const banner = document.getElementById(`banner__${i}`);
+      if(banner == null) {
+        return;
+      }
+      if (i % 2 === 0 && banner) {
+        banner.classList.remove("animate-scroll-right");
+      } else {
+        banner.classList.remove("animate-scroll-left");
+      }
+
+      console.log('banner__' + i);
+      
+      i--;
+      if (i == 0) {
+        clearInterval(intervalId); // Stop the interval when all banners are animated
+      }
+    }, 300);
+  }
+
+  function testFocus() {
+    console.log("focus");
+  }
 </script>
 
 <Banner />
@@ -23,7 +78,7 @@
   <span class="filled-text">
     <span class="d-flex">
       <h4 class="title">FIND</h4>
-      <h2 class="tagline color-blue">FRED</h2>
+      <h2 class="tagline" id="tagline">FRED</h2>
       <h4 class="footer">ONLINE</h4>
     </span>
   </span>
@@ -31,7 +86,7 @@
   <span class="outlined-text">
     <span class="d-flex">
       <h4 class="title">FIND</h4>
-      <h2 class="tagline">FRED</h2>
+      <h2 class="tagline" on:mouseover={setBannerAnimation} on:focus={testFocus}>FRED</h2>
       <h4 class="footer">ONLINE</h4>
     </span>
   </span>
@@ -46,6 +101,10 @@
   $bg-color: #3590f3;
   $circle-color: $bg-color;
   $circle-size: 100px;
+
+  :global(.color-blue) {
+    color: #119DA4!important;
+  }
   
   #home {
     height: 100vh;
@@ -85,6 +144,8 @@
         font-size: 15.5rem;
         text-transform: uppercase;
         color: #47585c;
+        // animate color change to blue
+        transition: color 0.5s ease-in-out;
       }
 
       .title {
@@ -171,12 +232,14 @@
     width: $circle-size;
     border-radius: 50%;
     background: $circle-color;
-    background: linear-gradient(105.49deg, #1D8CEC, #3db9dc);
+    // background: linear-gradient(105.49deg, #1D8CEC, #3db9dc);
+    background: linear-gradient(105.49deg, #47585c, #c8d5bb);
     border: 10px double $text-color;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     top: calc(50vh - 100px);
     left: calc(50vw - 100px);
     z-index: 4;
+    transition: border-color 1s ease-in-out;
   }
 </style>
 
