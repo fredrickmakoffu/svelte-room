@@ -1,4 +1,45 @@
+<script>
+  export let animation_on;
+  import { onMount } from 'svelte';
 
+  onMount(() => {
+    colorRandomLetters('banner')
+  });
+
+  const colors = [ '#119DA4', '#c8d5bb', '#47585c', '#c8d5bb', '#119DA4']
+
+  function colorRandomLetters(id) {
+    // get random letter between 1 - 9
+    const rand = Math.floor(Math.random() * 5) + 1;
+
+    // get the banner ids inside element
+    const text = document.getElementById('banner__' + rand).innerHTML;
+
+    // color one random letter in the banner
+    const randomLetter = Math.floor(Math.random() * 12);
+
+    // get the random letter
+    const letter = text.charAt(randomLetter);
+
+    // get one color from arrays color
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    // replace the random letter with a span with the letter
+    const newText = text.replace(letter, `<span style="color: ${color}">${letter}</span>`);
+
+    // set the new text
+    document.getElementById('banner__' + rand).innerHTML = newText;
+
+    // reset the banner
+    setTimeout(() => {
+      document.getElementById('banner__' + rand).innerHTML = text
+    }, 1500);
+
+    setTimeout(() => {
+      if( !animation_on) colorRandomLetters(id)
+    }, 2000);
+  }
+</script>
 <div id="banner">
     <div id="banner__1">BUILD BLESS TEST DEPLOY BUG BUILD TEST BUILD TEST DEPLOY</div> 
     <div id="banner__2">WRITE WAIT ERASE BLESS DRAFT WAIT BLESS TEST DEPLOY</div>
