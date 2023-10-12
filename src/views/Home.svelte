@@ -1,11 +1,13 @@
 <script>
+  export let screen;
+  
   import Banner from "../components/Home/Banner.svelte";
   import Triangle from "../components/Home/Triangle.svelte";
   import Typed from "typed.js";
 
-  const typed = () =>
+  const typed = (string) =>
     new Typed("#description", {
-      strings: ["a collection", "...no", "a discography of many projects"],
+      strings: string != null ? string : ["a collection", "...no", "a discography of many projects"],
       typeSpeed: 50,
       showCursor: false,
     });
@@ -28,7 +30,7 @@
   }
 
   // this function keeps the circle tracked to mouse movement by moving it every time the cursor moves
-  document.addEventListener("mousemove", trackCircle, false);
+  document.addEventListener("mousemove", trackCircle, true);
 
   async function setBannerAnimation() {
     if (animation_on) return;
@@ -116,41 +118,37 @@
     document.getElementById("circle").style.background =
       "linear-gradient(105.49deg, #119DA4, #c8d5bb)";
 
-    // // detach mouse from circle
-    // document.removeEventListener("mousemove", (e) => {
-    //   // create variables for circle element and 50% of circle diameter:
-    //   const circle = document.getElementById("circle");
-    //   const halfCircleSize = circle.offsetHeight / 2;
-
-    //   //get cursor location:
-    //   const mouse_x = e.clientX;
-    //   const mouse_y = e.clientY;
-
-    //   // set cursor as visible
-    //   document.getElementById("home").style.cursor = "pointer";
-
-    //   // move the circle to the cursor's location and offset the circle by 50% of its diameter so that it is always centered with the cursor:
-    //   circle.style.left = "0px";
-    //   circle.style.top = "0px"; //`${mouse_y - halfCircleSize}px`;
-    // });
+    // remove listener for tracking circle
+    document.removeEventListener("mousemove", trackCircle, true);
+    new Typed("#description", {
+      strings: ["a collection", "...no", "a discography of many projects"],
+      typeSpeed: 50,
+      showCursor: false,
+    });
 
     // move circle to exact position in redirect object
-    // document.getElementById("circle").style.left = `${redirect.x}px`;
-    // document.getElementById("circle").style.top = `${redirect.y}px`;
+    let circle = document.getElementById("circle");
+    circle.style.left = `${redirect.x - circle.offsetWidth/2}px`;
+    circle.style.top = `${redirect.y - circle.offsetHeight/2}px`;
 
-    // log success
-    console.log("redirect");
+    document.getElementById("redirect").style.background =
+      "linear-gradient(105.49deg, #47585c, #c8d5bb)";
+
+    // show cursor
+    document.getElementById("home").style.cursor = "pointer";
+
+    // rotate redirect by 45% slowly
+    document.getElementById("redirect").style.transform = "rotate(90deg)";
+
+    // type access granted in description id element using typed
+    typed(['access granted']);
+
+    setTimeout(() => {
+      screen = "room"
+    }, 2500);
   }
 
   function hideRedirectionOption() {
-    // revert redirect circle background to gradient
-    document.getElementById("redirect").style.background =
-      "linear-gradient(105.49deg, #119da4, #c8d5bb)";
-
-    // revert circle background with linear gradient
-    document.getElementById("circle").style.background =
-      "linear-gradient(105.49deg, #47585c, #c8d5bb)";
-
     // log success
     console.log("redirect out");
   }

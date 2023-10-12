@@ -18,6 +18,7 @@ $circle-size: 7rem;
   overflow: hidden;
   position: absolute;
   z-index: 3;
+  cursor: none;
 }
 
 span {
@@ -153,7 +154,6 @@ span {
   }
   
   font-family: sans-serif;
-  cursor: none;
   margin: 0;
   box-sizing: border-box;
   position: absolute;
@@ -171,6 +171,8 @@ span {
   left: calc(50vw - 100px);
   z-index: 4;
   transition: border-color  1s ease-in-out;
+  // transition moving position
+  transition: transform 2s ease-in-out;
 }
 
 // display styles
@@ -191,6 +193,8 @@ span {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;
+  // transition rotate
+  transition: transform 2s ease-in-out;
   background: linear-gradient(105.49deg, #119da4, #c8d5bb);
 
   // linear-gradient(105.49deg, #119DA4, #c8d5bb)
