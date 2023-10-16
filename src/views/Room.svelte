@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import {fly,slide} from "svelte/transition";
   import Shelf from "../components/Room/Shelf.svelte";
   import Frame from "../components/Room/Frame.svelte";
   import Window from "../components/Room/Window.svelte";
@@ -46,18 +47,9 @@
   // set data in open book
   let open_book = false;
   let store_open_book = {};
-
-  import { createPopper } from "@popperjs/core";
-
-  const popcorn = document.querySelector("#popcorn");
-  const tooltip = document.querySelector("#tooltip");
-
-  createPopper(popcorn, tooltip, {
-    placement: "top",
-  });
 </script>
 
-<main class="room">
+<main class="room"  in:fly="{{delay: 300, duration: 300}}" out:slide="{{duration: 300}}">
   {#each shelf as item}
     <Shelf
       top={item.top}

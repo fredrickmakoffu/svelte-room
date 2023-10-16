@@ -1,6 +1,6 @@
 <script>
   export let screen;
-  
+  import {fly, slide} from "svelte/transition";
   import Banner from "../components/Home/Banner.svelte";
   import Triangle from "../components/Home/Triangle.svelte";
   import Typed from "typed.js";
@@ -160,7 +160,7 @@
 
 <Banner {animation_on} />
 
-<div id="home">
+<div id="home" in:fly="{{delay: 300, duration: 300}}" out:slide="{{duration: 300}}">
   <span class="filled-text">
     <div id="triangles" class="triangle-positions">
       <span id="triangle__1" class="d-none" style="left: 0; top: inherit"

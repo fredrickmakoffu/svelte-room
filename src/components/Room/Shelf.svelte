@@ -74,7 +74,7 @@
         width: 3em;
         height: 4em;
         position: relative;
-        top: 3rem;
+        top: 2rem;
     }
 
     .bookend::before {

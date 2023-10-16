@@ -7,7 +7,7 @@
             --border-style: {border.style};
             --border-width: {border.width};
             --border-radius: {border.radius};
-            --border-color: {border.color}bb {border.color}ff; 
+            --border-color: {border.color}bb {border.secondary_color}ff; 
             --zoom: {zoom};
             --top: {position.top};
             --left: {position.left};
@@ -30,5 +30,6 @@
             zoom: var(--zoom);
             border-radius: var(--border-radius);
             border-color: var(--border-color);
+            cursor: grab;
         }
     </style>

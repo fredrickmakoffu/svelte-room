@@ -6,9 +6,10 @@
         "left": "115rem"
       },
       "border": {
-        "color":"#333",
+        "color":"#B1740F",
+        "secondary_color": "#FFD07B",
         "style": "solid",
-        "width": "15px",
+        "width": "10px",
         "radius": "15px"
       },
       "zoom": 0.4,
@@ -22,14 +23,15 @@
         "left": "115rem"
       },
       "border": {
-        "color":"#333",
+        "color":"#B1740F",
+        "secondary_color": "#FFD07B",
         "style": "solid",
-        "width": "15px",
+        "width": "10px",
         "radius": "15px"
       },
       "zoom": 0.4,
       "padding": "0px",
-      "image": "https://images.unsplash.com/photo-1583407723467-9b2d22504831?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80"
+      "image": "https://images.unsplash.com/photo-1575995872537-3793d29d972c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1924&q=80"
     },
     {
       "background": "#eee",
@@ -39,9 +41,10 @@
       },
       "border": {
         "color":"#333",
+        "secondary_color": "#FFD07B",
         "style": "solid",
-        "width": "5px",
-        "radius": "6px"
+        "width": "10px",
+        "radius": "15px"
       },
       "zoom": 1.12,
       "padding": "0",
