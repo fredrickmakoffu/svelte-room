@@ -1,7 +1,7 @@
 <script>
   import Room from './views/Room.svelte';
   import Home from './views/Home.svelte';
-  let screen = "home"
+  let screen = "room"
 
 </script>
 {#if screen == "home"}

@@ -1,6 +1,6 @@
 <script>
   const default_title = "Room";
-  const default_tagline = "take a look around";
+  const default_tagline = "click on the books, please";
 
   export let store_open_book;
 </script>

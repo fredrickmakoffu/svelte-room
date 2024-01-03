@@ -4,6 +4,8 @@
   function triggerBook() {
     open_book = !open_book;
   }
+
+  function handleKeyDown() {}
 </script>
 
 <div class="container">
@@ -20,12 +22,12 @@
           <p class="content-text">&bull; {point}.</p>
         {/each}
 
-        <p class="page-number">&rarr;</p>
+        <p class="page-number" on:click={triggerBook} on:keydown={handleKeyDown}>&#x2715;</p>
       </div>
     </div>
   </div>
 
-  <div class="backdrop" on:click={triggerBook} />
+  <div class="backdrop" on:click={triggerBook} on:keydown={handleKeyDown} />
 </div>
 
 <style scoped>

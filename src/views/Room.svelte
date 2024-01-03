@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import {fly,slide} from "svelte/transition";
+  import { fly, slide } from "svelte/transition";
   import Shelf from "../components/Room/Shelf.svelte";
   import Frame from "../components/Room/Frame.svelte";
   import Window from "../components/Room/Window.svelte";
@@ -49,13 +49,17 @@
   let store_open_book = {};
 </script>
 
-<main class="room"  in:fly="{{delay: 300, duration: 300}}" out:slide="{{duration: 300}}">
+<main
+  class="room"
+  in:fly={{ delay: 300, duration: 300 }}
+  out:slide={{ duration: 300 }}
+>
   {#each shelf as item}
     <Shelf
       top={item.top}
       left={item.left}
       zoom={item.zoom}
-      books={item.first_shelf_books}
+      books={item.shelf_books}
       bind:open_book
       bind:store_open_book
     />

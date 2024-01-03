@@ -1,0 +1,43 @@
+[
+    {
+        "zoom": 0.9,
+        "left": "20%",
+        "top": "28rem",
+        "first_shelf_books": [
+          [
+            {
+              "title": "2022 - 20??",
+              "tagline": "Laravel x Vue Dev",
+              "points": [
+                "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+                "Totam impedit atque molestiae animi vel dignissimos asperiores rerum quis aspernatur quasi",
+                "numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus.",
+                "numquam consequuntur sint ipsa ducimus eum magni! Facere, qui repellendus."
+              ],
+              "color": "#fff",
+              "background_color": "#B1740F",
+              "zoom": "0.3",
+              "width": "9rem"
+            },
+            {
+              "title": "2019 - 2021",
+              "tagline": "Lead Dev for New Products",
+              "points": [],
+              "color": "#fff",
+              "background_color": "#6A4509",
+              "zoom": "0.3",
+              "width": "9rem"
+            },
+            {
+              "title": "2016 - 2019",
+              "tagline": "Founder x Dev | Breaking new Ground",
+              "points": [],
+              "color": "#fff",
+              "background_color": "#B1740F",
+              "zoom": "0.3",
+              "width": "9rem"
+            }
+          ]
+        ]
+    }
+]
