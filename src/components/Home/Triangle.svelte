@@ -8,7 +8,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    transform: scale(0.2);
+    transform: scale(0.1);
     justify-content: center;
   }
   .cont span {

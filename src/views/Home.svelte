@@ -7,7 +7,7 @@
 
   const typed = (string) =>
     new Typed("#description", {
-      strings: string != null ? string : ["a collection", "...no", "a discography of many projects"],
+      strings: string != null ? string : ["a discography of many projects"],
       typeSpeed: 50,
       showCursor: false,
     });
@@ -37,6 +37,13 @@
 
     // set tagline in the filled text to be color blue
     document.getElementById("tagline").classList.add("color-blue");
+    document.querySelectorAll(".menu-item h6").forEach(res => {
+      res.classList.add("color-blue");
+    })
+
+    document.querySelectorAll(".menu-item-line").forEach(res => {
+      res.classList.add("border-color-blue");
+    })
 
     let i = 1;
     await setBanners(i).then(() => {
@@ -44,17 +51,7 @@
       setTimeout(() => {
         setTriangles(j), setDescription(), (animation_on = true);
       }, 2000);
-
-      setTimeout(() => {
-        setRedirect();
-      }, 3500);
     });
-  }
-
-  async function setRedirect() {
-    document.getElementById("redirect").style.visibility = "visible";
-    document.getElementById("redirect").style.opacity = "1";
-    getCenterOfElement(document.getElementById("redirect"));
   }
 
   async function setDescription() {
@@ -109,53 +106,10 @@
     console.log(redirect);
   }
 
-  function showRedirectionOption() {
-    // update redirect circle background to gradient
-    document.getElementById("redirect").style.background =
-      "linear-gradient(105.49deg, #119DA4, #c8d5bb)";
-
-    // update circle background with linear gradient
-    document.getElementById("circle").style.background =
-      "linear-gradient(105.49deg, #119DA4, #c8d5bb)";
-
-    // remove listener for tracking circle
-    document.removeEventListener("mousemove", trackCircle, true);
-    new Typed("#description", {
-      strings: ["a collection", "...no", "a discography of many projects"],
-      typeSpeed: 50,
-      showCursor: false,
-    });
-
-    // move circle to exact position in redirect object
-    let circle = document.getElementById("circle");
-    circle.style.left = `${redirect.x - circle.offsetWidth/2}px`;
-    circle.style.top = `${redirect.y - circle.offsetHeight/2}px`;
-
-    document.getElementById("redirect").style.background =
-      "linear-gradient(105.49deg, #47585c, #c8d5bb)";
-
-    // show cursor
-    document.getElementById("home").style.cursor = "pointer";
-
-    // rotate redirect by 45% slowly
-    document.getElementById("redirect").style.transform = "rotate(90deg)";
-
-    // type access granted in description id element using typed
-    typed(['access granted']);
-
-    setTimeout(() => {
-      screen = "room"
-    }, 2500);
+  function changeFontFamily() {
+    
   }
 
-  function hideRedirectionOption() {
-    // log success
-    console.log("redirect out");
-  }
-
-  function redirectToRoom() {
-    console.log();
-  }
 </script>
 
 <Banner {animation_on} />
@@ -195,14 +149,22 @@
       <h4 class="footer">ONLINE</h4>
     </span>
 
-    <div
-      id="redirect"
-      on:mouseover={showRedirectionOption}
-      on:mouseleave={hideRedirectionOption}
-      on:focus={redirectToRoom}
-    >
-      <p class="arrow">&rarr</p>
-    </div>
+    <span class="menu">
+      <div class="menu-item outlined-text" on:mouseover={changeFontFamily} on:focus={testFocus}>
+        <h6>Resume</h6>
+        <hr class="menu-item-line">
+      </div>  
+
+      <div class="menu-item filled-text" style="margin-left: 34%">
+        <h6>The.Room</h6>
+        <hr class="menu-item-line">
+      </div>  
+
+      <div class="menu-item filled-text" style="margin-left: 67%">
+        <h6>the.Rest</h6>
+        <hr class="menu-item-line">
+      </div>  
+    </span>
   </span>
 
   <div id="circle" />

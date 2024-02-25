@@ -11,6 +11,9 @@ $circle-size: 7rem;
 :global(.color-blue) {
   color: #119DA4!important;
 }
+:global(.border-color-blue) {
+  border-color: #119DA4!important;
+}
 
 #home {
   height: 100vh;
@@ -140,6 +143,26 @@ span {
       top: 11.6rem;
       color: #47585c;
       transition: display 2s ease-in-out;
+    }
+  }
+
+  .menu {
+    top: 9em;
+    width: -webkit-fill-available;
+    z-index: 2;
+
+    .menu-item {
+      h6 {
+        color: #414a4c;
+        font-size: 32px;
+        text-transform: uppercase;
+        font-family: "Clash Grotesk", sans-serif;
+      } 
+
+      .menu-item-line {
+        border: 6px solid #414a4c;
+        width: 90px;
+      }
     }
   }
 }
