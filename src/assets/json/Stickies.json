@@ -1,0 +1,54 @@
+[
+  {
+    "id": "s1",
+    "color": "#FFE566",
+    "title": "SIDE QUESTS",
+    "rotate": -3,
+    "top": "8rem",
+    "left": "103rem",
+    "tasks": [
+      { "text": "start a blog", "done": true },
+      { "text": "fix all TODOs", "done": false },
+      { "text": "learn Rust", "done": false }
+    ]
+  },
+  {
+    "id": "s2",
+    "color": "#FFB3C6",
+    "title": "SOMEDAY",
+    "rotate": 2.5,
+    "top": "4rem",
+    "left": "108rem",
+    "tasks": [
+      { "text": "read 12 books", "done": true },
+      { "text": "build a game", "done": false },
+      { "text": "learn piano", "done": false }
+    ]
+  },
+  {
+    "id": "s3",
+    "color": "#B8F0C8",
+    "title": "THIS WEEK",
+    "rotate": -1.5,
+    "top": "9rem",
+    "left": "110rem",
+    "tasks": [
+      { "text": "ship portfolio", "done": true },
+      { "text": "write tests", "done": false },
+      { "text": "call mom", "done": true }
+    ]
+  },
+  {
+    "id": "s4",
+    "color": "#FFE566",
+    "title": "BIG IDEAS",
+    "rotate": 3,
+    "top": "5rem",
+    "left": "115rem",
+    "tasks": [
+      { "text": "build an OS", "done": false },
+      { "text": "create a startup", "done": false },
+      { "text": "write a book", "done": false }
+    ]
+  }
+]

@@ -38,9 +38,25 @@
     font-family: "Clash Grotesk", sans-serif;
     font-weight: 400;
     letter-spacing: 1px;
-    background: linear-gradient(to bottom, #FFDB58 0%, #F0CC49 100%);
+    background: #f5eedc;
     padding: 5px 18px;
     color: #333;
+    box-shadow:
+      2px 3px 8px rgba(0, 0, 0, 0.18),
+      1px 1px 0 rgba(0, 0, 0, 0.06);
+    transform: rotate(-1.5deg);
+  }
+
+  .book_label::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 10px;
+    background: rgba(200, 180, 130, 0.55);
+    border-radius: 1px;
   }
 
   .shelf-section {

@@ -18,7 +18,7 @@
 <style>
   .plant {
     position: absolute;
-    top: 36rem;
+    top: 31.8rem;
     left: 57rem;
     width: 7rem;
   }
@@ -50,11 +50,36 @@
     transform-origin: 50% 100%;
   }
 
-  .l1 { bottom: 1.8rem; left: -0.8rem; transform: rotate(-55deg); background: #2d6a4f; }
-  .l2 { bottom: 3.2rem; left: 0.2rem;  transform: rotate(-25deg); background: #40916c; }
-  .l3 { bottom: 4rem;   left: 1.8rem;  transform: rotate(5deg);   background: #52b788; }
-  .l4 { bottom: 3rem;   left: 3.5rem;  transform: rotate(32deg);  background: #40916c; }
-  .l5 { bottom: 1.2rem; left: 4rem;    transform: rotate(58deg);  background: #2d6a4f; }
+  .l1 {
+    bottom: 1.8rem;
+    left: -0.8rem;
+    transform: rotate(-55deg);
+    background: #2d6a4f;
+  }
+  .l2 {
+    bottom: 3.2rem;
+    left: 0.2rem;
+    transform: rotate(-25deg);
+    background: #40916c;
+  }
+  .l3 {
+    bottom: 4rem;
+    left: 1.8rem;
+    transform: rotate(5deg);
+    background: #52b788;
+  }
+  .l4 {
+    bottom: 3rem;
+    left: 3.5rem;
+    transform: rotate(32deg);
+    background: #40916c;
+  }
+  .l5 {
+    bottom: 1.2rem;
+    left: 4rem;
+    transform: rotate(58deg);
+    background: #2d6a4f;
+  }
 
   /* ── Pot ─────────────────────────────────── */
   .pot-rim {
@@ -71,7 +96,12 @@
     background: #c36d4a;
     margin: 0 auto;
     clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
-    background-image: linear-gradient(to right, #b5623f 0%, #d4845a 50%, #b5623f 100%);
+    background-image: linear-gradient(
+      to right,
+      #b5623f 0%,
+      #d4845a 50%,
+      #b5623f 100%
+    );
   }
 
   .pot-foot {

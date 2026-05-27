@@ -9,13 +9,15 @@
   import Mouse from "../components/Room/Mouse.svelte";
   import Radio from "../components/Room/Radio.svelte";
   import Clock from "../components/Room/Clock.svelte";
-  import anime from "animejs/lib/anime.es.js";
   import Information from "../components/Room/Information.svelte";
   import OpenBook from "../components/Room/OpenBook.svelte";
   import Chair from "../components/Room/Chair.svelte";
   import Mug from "../components/Room/Mug.svelte";
   import Pot from "../components/Room/Pot.svelte";
-  import { openBook } from "../stores/room.js";
+  import DeskLamp from "../components/Room/DeskLamp.svelte";
+  import Stickies from "../components/Room/Stickies.svelte";
+  import StickyDetail from "../components/Room/StickyDetail.svelte";
+  import { openBook, openSticky } from "../stores/room.js";
 
   // JSON data
   import FramesJson from "../assets/json/Frame.json";
@@ -50,16 +52,6 @@
   onMount(() => {
     updateScale();
     window.addEventListener("resize", updateScale);
-
-    anime({
-      targets: ".float",
-      keyframes: [{ translateY: -10 }],
-      delay: anime.stagger(200),
-      direction: "alternate",
-      rotate: anime.stagger([-1, 1]),
-      easing: "easeInOutSine",
-      loop: true,
-    });
   });
 
   onDestroy(() => {
@@ -93,7 +85,7 @@
     {/each}
 
     <!-- Chair renders before Desk so the desk surface overlays the seat naturally -->
-    <Chair />
+    <!-- <Chair /> -->
 
     {#each desks as { desk_block_left, desk_block_right, desk_leg_left, desk_leg_right }}
       <Desk
@@ -109,12 +101,16 @@
     {/each}
 
     <Mug />
+    <DeskLamp />
     <Mouse />
     <Radio />
     <Clock />
 
     <!-- Plant on the floor to the left of the desk -->
     <Pot />
+
+    <!-- Sticky notes on the wall, right of the window -->
+    <Stickies />
 
     <div class="wall" />
     <div class="floor" />
@@ -123,6 +119,10 @@
 
     {#if $openBook}
       <OpenBook />
+    {/if}
+
+    {#if $openSticky}
+      <StickyDetail />
     {/if}
   </main>
 </div>
