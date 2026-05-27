@@ -6,7 +6,7 @@
 <style>
   .mouse {
     position: absolute;
-    left: 36.4rem;
+    left: 38rem;
     /* zoom kept: position offsets in JSON rely on Chrome's zoom scaling behaviour */
     zoom: 0.72;
     top: 13.3rem;

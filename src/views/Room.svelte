@@ -12,6 +12,9 @@
   import anime from "animejs/lib/anime.es.js";
   import Information from "../components/Room/Information.svelte";
   import OpenBook from "../components/Room/OpenBook.svelte";
+  import Chair from "../components/Room/Chair.svelte";
+  import Mug from "../components/Room/Mug.svelte";
+  import Pot from "../components/Room/Pot.svelte";
   import { openBook } from "../stores/room.js";
 
   // JSON data
@@ -30,14 +33,17 @@
   // ── Viewport scaling ────────────────────────────────────────────────────────
   // The room was designed at ~2500 × 1000 px. We scale the entire container so
   // all absolute/fixed positions remain correct at every viewport size.
-  const DESIGN_WIDTH  = 2500;
+  const DESIGN_WIDTH = 2500;
   const DESIGN_HEIGHT = 1000;
 
-  let scale       = 1;
+  let scale = 1;
   let scaledHeight = DESIGN_HEIGHT;
 
   function updateScale() {
-    scale       = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
+    scale = Math.min(
+      window.innerWidth / DESIGN_WIDTH,
+      window.innerHeight / DESIGN_HEIGHT,
+    );
     scaledHeight = Math.round(DESIGN_HEIGHT * scale);
   }
 
@@ -86,17 +92,29 @@
       <Window {background} {border} {zoom} {position} {height} {width} />
     {/each}
 
+    <!-- Chair renders before Desk so the desk surface overlays the seat naturally -->
+    <Chair />
+
     {#each desks as { desk_block_left, desk_block_right, desk_leg_left, desk_leg_right }}
-      <Desk {desk_block_left} {desk_block_right} {desk_leg_left} {desk_leg_right} />
+      <Desk
+        {desk_block_left}
+        {desk_block_right}
+        {desk_leg_left}
+        {desk_leg_right}
+      />
     {/each}
 
     {#each laptops as { width, top, left, border_radius, background_color }}
       <Laptop {width} {top} {left} {border_radius} {background_color} />
     {/each}
 
+    <Mug />
     <Mouse />
     <Radio />
     <Clock />
+
+    <!-- Plant on the floor to the left of the desk -->
+    <Pot />
 
     <div class="wall" />
     <div class="floor" />
@@ -126,7 +144,7 @@
     width: 100%;
     height: 47rem;
     background: aliceblue;
-    background-image: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
     z-index: -1;
   }
 
@@ -136,7 +154,7 @@
     padding: 9px;
     background: teal;
     top: 46rem;
-    background-image: url('https://www.transparenttextures.com/patterns/back-pattern.png');
+    background-image: url("https://www.transparenttextures.com/patterns/back-pattern.png");
     z-index: -1;
   }
 </style>

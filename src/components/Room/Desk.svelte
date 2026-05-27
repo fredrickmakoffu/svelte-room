@@ -2,7 +2,9 @@
   export let desk_block_left, desk_block_right, desk_leg_left, desk_leg_right;
 </script>
 
-<div class="desk-block" style="
+<div
+  class="desk-block"
+  style="
   --background: {desk_block_left.background};
   --width: {desk_block_left.width};
   --padding: {desk_block_left.padding};
@@ -11,10 +13,12 @@
   --border-bottom-right-radius: {desk_block_left.border.bottom_right_radius};
   --position: {desk_block_left.position};
   --top: {desk_block_left.top};
-  --left: {desk_block_left.left}">
-</div>
+  --left: {desk_block_left.left}"
+></div>
 
-<div class="desk-block" style="
+<div
+  class="desk-block"
+  style="
   --background: {desk_block_right.background};
   --width: {desk_block_right.width};
   --padding: {desk_block_right.padding};
@@ -23,28 +27,32 @@
   --border-top-right-radius: {desk_block_right.border.top_right_radius};
   --position: {desk_block_right.position};
   --top: {desk_block_right.top};
-  --left: {desk_block_right.left}">
-</div>
+  --left: {desk_block_right.left}"
+></div>
 
-<div class="desk-legs" style="
+<div
+  class="desk-legs"
+  style="
   --background: {desk_leg_left.background};
   --height: {desk_leg_left.height};
   --padding: {desk_leg_left.padding};
   --border-radius: {desk_leg_left.border.radius};
   --position: {desk_leg_left.position};
   --top: {desk_leg_left.top};
-  --left: {desk_leg_left.left};">
-</div>
+  --left: {desk_leg_left.left};"
+></div>
 
-<div class="desk-legs" style="
+<div
+  class="desk-legs"
+  style="
   --background: {desk_leg_right.background};
   --height: {desk_leg_right.height};
   --padding: {desk_leg_right.padding};
   --border-radius: {desk_leg_right.border.radius};
   --position: {desk_leg_right.position};
   --top: {desk_leg_right.top};
-  --left: {desk_leg_right.left};">
-</div>
+  --left: {desk_leg_right.left};"
+></div>
 
 <style>
   .desk-block {
