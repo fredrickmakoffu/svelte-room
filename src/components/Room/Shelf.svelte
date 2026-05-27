@@ -1,15 +1,16 @@
 <script>
   import Book from "./Book.svelte";
-  export let zoom, top, left, books, open_book, store_open_book;
+
+  export let zoom, top, left, books;
 </script>
 
 <div class="shelf" style="--top:{top}; --zoom:{zoom}; --left:{left}">
   <div class="shadow"></div>
 
   {#each books as section}
-    <div class="d-block">
+    <div class="section-block">
       <h4 class="book_label">{section.label}</h4>
-      <div class="d-inline-flex shelf-section">
+      <div class="shelf-section">
         <div class="bookend left"></div>
 
         {#each section.data as { title, tagline, points, color, background_color, zoom, width }}
@@ -21,8 +22,6 @@
             {background_color}
             {zoom}
             {width}
-            bind:open_book
-            bind:store_open_book
           />
         {/each}
 
@@ -32,7 +31,7 @@
   {/each}
 </div>
 
-<style scoped>
+<style>
   .book_label {
     position: absolute;
     bottom: 6rem;
@@ -44,20 +43,22 @@
     color: #333;
   }
 
-  .d-inline-flex {
+  .shelf-section {
     display: inline-flex;
   }
 
-  .d-block {
+  .section-block {
     display: block;
   }
 
   .shelf {
     width: 30em;
     border-bottom: 1em solid #d97a53;
-    position: fixed;
+    position: absolute;
     top: var(--top);
-    zoom: var(--zoom);
+    /* zoom → transform: scale keeps Firefox parity and is spec-compliant */
+    transform: scale(var(--zoom));
+    transform-origin: top left;
     left: var(--left);
     margin-top: -5em;
     margin-left: -15em;

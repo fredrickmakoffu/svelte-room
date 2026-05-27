@@ -1,65 +1,47 @@
 <script>
-  export let title,
-    tagline,
-    points,
-    color,
-    background_color,
-    zoom,
-    open_book,
-    store_open_book;
+  import { openBook, selectedBook } from "../../stores/room.js";
+
+  export let title, tagline, points, color, background_color, zoom;
   export let width = "auto";
 
   function handleHover() {
-    // set title in element with id=information
-    store_open_book = {
-      title: title,
-      tagline: tagline,
-      points: points,
-    };
-  }
-
-  function handleFocus() {
-    open_book = !open_book;
+    selectedBook.set({ title, tagline, points });
   }
 
   function handleClick() {
-    open_book = !open_book;
-
-    store_open_book = {
-      title: title,
-      tagline: tagline,
-      points: points,
-    };
+    selectedBook.set({ title, tagline, points });
+    openBook.set(true);
   }
-
-  function handleKeyUp() {}
 </script>
 
 <div
   class="book float"
   style="--color: {color}; --background_color: {background_color}; --zoom: {zoom}; --width: {width}"
+  role="button"
+  tabindex="0"
   on:mouseover={handleHover}
-  on:focus={handleFocus}
+  on:focus={handleHover}
   on:click={handleClick}
-  on:keyup={handleKeyUp}
+  on:keyup={(e) => e.key === 'Enter' && handleClick()}
 >
   <div class="pad-wide" />
   <div>
-    <p class="book-title uppercase">{title}</p>
+    <p class="book-title">{title}</p>
   </div>
-  <p class="pad-wide grid uppercase" />
+  <p class="pad-wide" />
 </div>
 
-<style scoped>
+<style>
   .book {
     color: var(--color);
     background-color: var(--background_color);
     background-image: url("https://www.transparenttextures.com/patterns/binding-light.png");
     border-radius: 3px;
+    /* zoom kept intentionally: it participates in the shelf's flex layout.
+       Replacing with transform:scale would require explicit width overrides. */
     zoom: var(--zoom);
     width: var(--width);
     flex-direction: column;
-    border-radius: 2px;
     cursor: pointer;
   }
 
@@ -67,14 +49,11 @@
     font-size: 12px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    padding: 6rem 0rem;
+    text-transform: uppercase;
+    padding: 6rem 0;
     margin: auto;
     letter-spacing: 2px;
     font-weight: 600;
-  }
-
-  .uppercase {
-    text-transform: uppercase;
   }
 
   .pad-wide {

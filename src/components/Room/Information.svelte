@@ -1,29 +1,30 @@
 <script>
-  const default_title = "Room";
-  const default_tagline = "click on the books, please";
+  import { selectedBook } from "../../stores/room.js";
 
-  export let store_open_book;
+  const DEFAULT_TITLE   = "Room";
+  const DEFAULT_TAGLINE = "click on the books";
 </script>
 
-<div id="information" class="information">
-  <div id="information-title" class="gradient-blue">
-    {store_open_book.title ?? default_title}
+<div class="information">
+  <div class="gradient-title">
+    {$selectedBook.title ?? DEFAULT_TITLE}
   </div>
-  <p class="information-tagline">
-    [ {store_open_book.tagline ?? default_tagline} ]
+  <p class="tagline">
+    [ {$selectedBook.tagline ?? DEFAULT_TAGLINE} ]
   </p>
 </div>
 
-<style scoped>
+<style>
   .information {
     position: absolute;
-    width: -webkit-fill-available;
+    width: 100%;
     text-align: center;
     top: 49rem;
-    z-index: -1;
+    /* Raised above the floor so it's actually visible */
+    z-index: 1;
   }
 
-  .gradient-blue {
+  .gradient-title {
     background: linear-gradient(105.49deg, teal, #af6a0f);
     background-clip: text;
     -webkit-background-clip: text;
@@ -33,7 +34,7 @@
     font-weight: 900;
   }
 
-  .information-tagline {
+  .tagline {
     font-family: "Clash Grotesk", sans-serif;
     margin: 0;
     letter-spacing: 1px;

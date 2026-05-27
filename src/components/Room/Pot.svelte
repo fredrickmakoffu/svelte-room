@@ -4,7 +4,7 @@
     <div class="pot-base" />
 </div>
 
-<style scoped>
+<style>
     .pot {
         border-bottom: 100px solid #C36D4A;
         border-left: 25px solid transparent;

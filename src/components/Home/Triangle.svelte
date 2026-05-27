@@ -3,7 +3,7 @@
   <span />
 </div>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .cont {
     position: relative;
     display: flex;

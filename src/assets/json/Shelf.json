@@ -1,7 +1,7 @@
 [
   {
     "zoom": 0.9,
-    "left": "20%",
+    "left": "15%",
     "top": "15rem",
     "shelf_books": [
       {
@@ -54,7 +54,7 @@
         "label": "Projects",
         "data": [
           {
-            "title": "2017 - Inf", 
+            "title": "2017 - Inf",
             "tagline": "The RATA Project: Kenyan Music to the World",
             "points": [
               "Empower exceptional yet underground Kenyan musicians by curating, recording, publishing, and marketing the content online",
@@ -64,7 +64,7 @@
             "background_color": "#8a008a",
             "zoom": "0.3",
             "width": "10rem"
-          } 
+          }
         ]
       }
     ],
@@ -114,7 +114,7 @@
       ],
       [
         {
-          "title": "2017 - Inf", 
+          "title": "2017 - Inf",
           "tagline": "The RATA Project: Kenyan Music to the World",
           "points": [
             "Empower exceptional yet underground Kenyan musicians by curating, recording, publishing, and marketing the content online",
@@ -124,7 +124,7 @@
           "background_color": "#8a008a",
           "zoom": "0.3",
           "width": "10rem"
-        } 
+        }
       ]
     ]
   }

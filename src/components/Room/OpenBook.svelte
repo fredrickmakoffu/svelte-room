@@ -1,11 +1,9 @@
 <script>
-  export let open_book, store_open_book;
+  import { openBook, selectedBook } from "../../stores/room.js";
 
-  function triggerBook() {
-    open_book = !open_book;
+  function close() {
+    openBook.set(false);
   }
-
-  function handleKeyDown() {}
 </script>
 
 <div class="container">
@@ -13,30 +11,33 @@
     <div class="open-pages">
       <div class="left-page">
         <div class="content">
-          <p class="content-title">{store_open_book.title}</p>
-          <h6 class="content-tagline">{store_open_book.tagline}</h6>
+          <p class="content-title">{$selectedBook.title}</p>
+          <h6 class="content-tagline">{$selectedBook.tagline}</h6>
         </div>
       </div>
       <div class="right-page">
-        {#each store_open_book.points as point}
+        {#each $selectedBook.points ?? [] as point}
           <p class="content-text">&bull; {point}.</p>
         {/each}
 
-        <p class="page-number" on:click={triggerBook} on:keydown={handleKeyDown}>&#x2715;</p>
+        <button class="close-btn" on:click={close} aria-label="Close">&#x2715;</button>
       </div>
     </div>
   </div>
 
-  <div class="backdrop" on:click={triggerBook} on:keydown={handleKeyDown} />
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="backdrop" on:click={close} />
 </div>
 
-<style scoped>
+<style>
   .backdrop {
     height: 100%;
     width: 100%;
     background: #333;
     position: absolute;
-    z-index: -1;
+    top: 0;
+    left: 0;
     opacity: 0.2;
     z-index: 1;
   }
@@ -62,7 +63,7 @@
     font-family: "Supreme", sans-serif;
   }
 
-  .page-number {
+  .close-btn {
     font-size: 8px;
     font-weight: 900;
     float: right;
@@ -70,20 +71,24 @@
     margin-top: 1px;
     color: teal;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
   }
 
   .container {
     display: flex;
     height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
   }
 
   .open-book {
     --background: linear-gradient(135deg, #fafafa, #f6f6f6);
     --shadow: rgba(211, 211, 211, 0.28);
-    --text: #6c7486;
-    --page: rgba(235, 232, 232, 0.36);
-    --page-fold: rgba(250, 250, 250, 0.52);
-    --duration: 3s;
     width: 240px;
     height: 140px;
     position: relative;

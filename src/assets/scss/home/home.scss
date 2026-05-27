@@ -9,10 +9,10 @@ $circle-size: 7rem;
   left: 35%;
 }
 :global(.color-blue) {
-  color: #119DA4!important;
+  color: #119DA4 !important;
 }
 :global(.border-color-blue) {
-  border-color: #119DA4!important;
+  border-color: #119DA4 !important;
 }
 
 #home {
@@ -33,7 +33,7 @@ span {
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
-  
+
   @media screen and (max-width: 768px) {
     padding: 5px;
     font-size: 3rem;
@@ -54,7 +54,6 @@ span {
       font-size: 15.5rem;
       text-transform: uppercase;
       color: #47585c;
-      // animate color change to blue
       transition: color 0.5s ease-in-out;
     }
 
@@ -90,7 +89,9 @@ span {
       right: 8.5rem;
       top: 11.6rem;
       color: #47585c;
-      transition: display 2s ease-in-out;
+      /* Note: typed.js writes directly into this element so visibility
+         is controlled by whether Typed has started, not a CSS class. */
+      opacity: 1;
     }
   }
 
@@ -132,23 +133,12 @@ span {
       top: 8.6rem;
     }
 
-    .footer-description {
-      font-family: 'Supreme', "Clash Grotesk", sans-serif;
-      position: absolute;
-      z-index: 3;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      right: 8.5rem;
-      top: 11.6rem;
-      color: #47585c;
-      transition: display 2s ease-in-out;
-    }
   }
 
   .menu {
     top: 9em;
-    width: -webkit-fill-available;
+    width: stretch;
+    width: -webkit-fill-available; /* Safari/Chrome fallback */
     z-index: 2;
 
     .menu-item {
@@ -157,7 +147,7 @@ span {
         font-size: 32px;
         text-transform: uppercase;
         font-family: "Clash Grotesk", sans-serif;
-      } 
+      }
 
       .menu-item-line {
         border: 6px solid #414a4c;
@@ -175,7 +165,7 @@ span {
   ::selection {
     background: none;
   }
-  
+
   font-family: sans-serif;
   margin: 0;
   box-sizing: border-box;
@@ -186,16 +176,15 @@ span {
   height: $circle-size;
   width: $circle-size;
   border-radius: 50%;
-  background: $circle-color;
   background: linear-gradient(105.49deg, #47585c, #c8d5bb);
   border: 10px double $text-color;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   top: calc(50vh - 100px);
   left: calc(50vw - 100px);
   z-index: 4;
-  transition: border-color  1s ease-in-out;
-  // transition moving position
-  transition: transform 2s ease-in-out;
+  /* Fixed: two separate transition declarations — only the last one applies.
+     Combined into a single comma-separated declaration. */
+  transition: border-color 1s ease-in-out, transform 2s ease-in-out;
 }
 
 // display styles
@@ -203,36 +192,9 @@ span {
   display: none;
 }
 
-#redirect {
-  position: absolute;
-  height: 5rem;
-  width: 5rem;
-  border-radius: 50%;
-  // background-color: #47585c;
-  z-index: 8;
-  transition: background-color 1s ease-in-out;
-  top: 70%;
-  left: 46.5%;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
-  // transition rotate
-  transition: transform 2s ease-in-out;
-  background: linear-gradient(105.49deg, #119da4, #c8d5bb);
-
-  // linear-gradient(105.49deg, #119DA4, #c8d5bb)
-  .arrow {
-    margin: 0;
-    font-size: 4rem;
-    color: #eee;
-    margin-left: -1rem;
-  }
-}
 
 :global(.gradient-green) {
-  background: linear-gradient(105.49deg,
-      rgb(17, 157, 164),
-      rgb(200, 213, 187));
+  background: linear-gradient(105.49deg, rgb(17, 157, 164), rgb(200, 213, 187));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

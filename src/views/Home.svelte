@@ -1,131 +1,98 @@
 <script>
-  export let screen;
-  import {fly, slide} from "svelte/transition";
+  import { onMount, onDestroy } from "svelte";
+  import { fly, slide } from "svelte/transition";
   import Banner from "../components/Home/Banner.svelte";
   import Triangle from "../components/Home/Triangle.svelte";
   import Typed from "typed.js";
 
-  const typed = (string) =>
-    new Typed("#description", {
-      strings: string != null ? string : ["a discography of many projects"],
+  // ── State ────────────────────────────────────────────────────────────────────
+  let animation_on = false;
+  let typedInstance = null;
+
+  // ── Mouse tracker ────────────────────────────────────────────────────────────
+  let circle;
+
+  function trackCircle(e) {
+    if (!circle) return;
+    const half = circle.offsetHeight / 2;
+    circle.style.left = `${e.clientX - half}px`;
+    circle.style.top  = `${e.clientY - half}px`;
+  }
+
+  onMount(() => {
+    // Listener added here (not at module level) so it can be cleaned up
+    window.addEventListener("mousemove", trackCircle, true);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("mousemove", trackCircle, true);
+    typedInstance?.destroy();
+  });
+
+  // ── Typed.js description ─────────────────────────────────────────────────────
+  function startTyped(strings) {
+    typedInstance?.destroy();
+    typedInstance = new Typed("#description", {
+      strings: strings ?? ["a discography of many projects"],
       typeSpeed: 50,
       showCursor: false,
     });
-
-  let animation_on = false;
-  let redirect = {};
-
-  function trackCircle(e) {
-    // create variables for circle element and 50% of circle diameter:
-    const circle = document.getElementById("circle");
-    const halfCircleSize = circle.offsetHeight / 2;
-
-    //get cursor location:
-    const mouse_x = e.clientX;
-    const mouse_y = e.clientY;
-
-    // move the circle to the cursor's location and offset the circle by 50% of its diameter so that it is always centered with the cursor:
-    circle.style.left = `${mouse_x - halfCircleSize}px`;
-    circle.style.top = `${mouse_y - halfCircleSize}px`;
   }
 
-  // this function keeps the circle tracked to mouse movement by moving it every time the cursor moves
-  document.addEventListener("mousemove", trackCircle, true);
-
+  // ── Banner entry animation ───────────────────────────────────────────────────
   async function setBannerAnimation() {
     if (animation_on) return;
 
-    // set tagline in the filled text to be color blue
     document.getElementById("tagline").classList.add("color-blue");
-    document.querySelectorAll(".menu-item h6").forEach(res => {
-      res.classList.add("color-blue");
-    })
+    document.querySelectorAll(".menu-item h6").forEach(el => el.classList.add("color-blue"));
+    document.querySelectorAll(".menu-item-line").forEach(el => el.classList.add("border-color-blue"));
 
-    document.querySelectorAll(".menu-item-line").forEach(res => {
-      res.classList.add("border-color-blue");
-    })
+    await animateBanners();
+    setTimeout(() => {
+      animateTriangles();
+      startTyped();
+      animation_on = true;
+    }, 2000);
+  }
 
-    let i = 1;
-    await setBanners(i).then(() => {
-      let j = 1;
-      setTimeout(() => {
-        setTriangles(j), setDescription(), (animation_on = true);
-      }, 2000);
+  function animateBanners() {
+    return new Promise(resolve => {
+      let i = 1;
+      const id = setInterval(() => {
+        const banner = document.getElementById(`banner__${i}`);
+        if (!banner) { clearInterval(id); resolve(); return; }
+        banner.classList.add(i % 2 === 0 ? "animate-scroll-right" : "animate-scroll-left");
+        i++;
+        if (i > 10) { clearInterval(id); resolve(); }
+      }, 300);
     });
   }
 
-  async function setDescription() {
-    typed();
-  }
-
-  async function setTriangles(j) {
-    const activateTriangles = setInterval(function () {
+  function animateTriangles() {
+    let j = 1;
+    const id = setInterval(() => {
       const triangle = document.getElementById(`triangle__${j}`);
-      if (triangle == null) return;
-
+      if (!triangle) { clearInterval(id); return; }
       triangle.classList.remove("d-none");
       j++;
-      if (j > 4) {
-        clearInterval(activateTriangles); // Stop the interval when all banners are animated
-      }
+      if (j > 4) clearInterval(id);
     }, 500);
   }
 
-  async function setBanners(i) {
-    const intervalId = setInterval(function () {
-      const banner = document.getElementById(`banner__${i}`);
-      if (banner == null) {
-        return;
-      }
-
-      if (i % 2 === 0) {
-        banner.classList.add("animate-scroll-right");
-      } else {
-        banner.classList.add("animate-scroll-left");
-      }
-      console.log("banner__" + i);
-
-      i++;
-      if (i > 10) {
-        clearInterval(intervalId); // Stop the interval when all banners are animated
-      }
-    }, 300);
+  // ── Navigation ───────────────────────────────────────────────────────────────
+  function goToRoom() {
+    window.location.hash = "room";
   }
-
-  function testFocus() {
-    console.log("focus");
-  }
-
-  function getCenterOfElement(el) {
-    var offset = el.getBoundingClientRect();
-    var x = offset.left + el.offsetWidth / 2;
-    var y = offset.top + el.offsetHeight / 2;
-
-    redirect = { x, y };
-
-    console.log(redirect);
-  }
-
-  function changeFontFamily() {
-    
-  }
-
 </script>
 
 <Banner {animation_on} />
 
-<div id="home" in:fly="{{delay: 300, duration: 300}}" out:slide="{{duration: 300}}">
+<div id="home" in:fly="{{ delay: 300, duration: 300 }}" out:slide="{{ duration: 300 }}">
   <span class="filled-text">
     <div id="triangles" class="triangle-positions">
-      <span id="triangle__1" class="d-none" style="left: 0; top: inherit"
-        ><Triangle /></span
-      >
-      <span id="triangle__2" class="d-none" style="left: 5rem; top: inherit">
-        <Triangle />
-      </span>
-      <span id="triangle__3" class="d-none" style="left: 10rem; top: inherit">
-        <Triangle />
-      </span>
+      <span id="triangle__1" class="d-none" style="left: 0; top: inherit"><Triangle /></span>
+      <span id="triangle__2" class="d-none" style="left: 5rem; top: inherit"><Triangle /></span>
+      <span id="triangle__3" class="d-none" style="left: 10rem; top: inherit"><Triangle /></span>
     </div>
 
     <span class="d-flex">
@@ -139,37 +106,34 @@
   <span class="outlined-text">
     <span class="d-flex">
       <h4 class="title">FIND</h4>
-      <h2
-        class="tagline"
-        on:mouseover={setBannerAnimation}
-        on:focus={testFocus}
-      >
-        FRED
-      </h2>
+      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+      <h2 class="tagline" on:mouseover={setBannerAnimation}>FRED</h2>
       <h4 class="footer">ONLINE</h4>
     </span>
 
     <span class="menu">
-      <div class="menu-item outlined-text" on:mouseover={changeFontFamily} on:focus={testFocus}>
+      <div class="menu-item outlined-text">
         <h6>Resume</h6>
         <hr class="menu-item-line">
-      </div>  
+      </div>
 
-      <div class="menu-item filled-text" style="margin-left: 34%">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <div class="menu-item filled-text" style="margin-left: 34%" on:click={goToRoom}>
         <h6>The.Room</h6>
         <hr class="menu-item-line">
-      </div>  
+      </div>
 
       <div class="menu-item filled-text" style="margin-left: 67%">
         <h6>the.Rest</h6>
         <hr class="menu-item-line">
-      </div>  
+      </div>
     </span>
   </span>
 
-  <div id="circle" />
+  <div id="circle" bind:this={circle} />
 </div>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../assets/scss/home/home.scss";
 </style>
