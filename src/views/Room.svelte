@@ -18,6 +18,8 @@
   import Stickies from "../components/Room/Stickies.svelte";
   import Guitar from "../components/Room/Guitar.svelte";
   import StickyDetail from "../components/Room/StickyDetail.svelte";
+  import Cat from "../components/Room/Cat.svelte";
+  import WindowLight from "../components/Room/WindowLight.svelte";
   import { openBook, openSticky } from "../stores/room.js";
 
   // JSON data
@@ -110,6 +112,9 @@
     <!-- Plant on the floor to the left of the desk -->
     <Pot />
 
+    <!-- Cat and its sleeping bed — near the plant -->
+    <Cat />
+
     <!-- Sticky notes on the wall, right of the window -->
     <Stickies />
 
@@ -155,7 +160,7 @@
   .floor {
     position: absolute;
     width: 100%;
-    padding: 9px;
+    height: 1.8rem;
     background: teal;
     top: 46rem;
     background-image: url("https://www.transparenttextures.com/patterns/back-pattern.png");
