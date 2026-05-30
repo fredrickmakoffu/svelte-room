@@ -52,32 +52,32 @@
 
   .l1 {
     bottom: 1.8rem;
-    left: -0.8rem;
-    transform: rotate(-55deg);
+    left: 0.4rem;
+    transform: rotate(-48deg);
     background: #2d6a4f;
   }
   .l2 {
     bottom: 3.2rem;
-    left: 0.2rem;
-    transform: rotate(-25deg);
+    left: 1.0rem;
+    transform: rotate(-20deg);
     background: #40916c;
   }
   .l3 {
     bottom: 4rem;
-    left: 1.8rem;
+    left: 2.0rem;
     transform: rotate(5deg);
     background: #52b788;
   }
   .l4 {
     bottom: 3rem;
-    left: 3.5rem;
-    transform: rotate(32deg);
+    left: 2.8rem;
+    transform: rotate(26deg);
     background: #40916c;
   }
   .l5 {
     bottom: 1.2rem;
-    left: 4rem;
-    transform: rotate(58deg);
+    left: 3.2rem;
+    transform: rotate(50deg);
     background: #2d6a4f;
   }
 

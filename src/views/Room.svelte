@@ -14,6 +14,7 @@
   import Chair from "../components/Room/Chair.svelte";
   import Mug from "../components/Room/Mug.svelte";
   import Pot from "../components/Room/Pot.svelte";
+  import BackgroundPlants from "../components/Room/BackgroundPlants.svelte";
   import DeskLamp from "../components/Room/DeskLamp.svelte";
   import Stickies from "../components/Room/Stickies.svelte";
   import Guitar from "../components/Room/Guitar.svelte";
@@ -108,6 +109,9 @@
     <Mouse />
     <Radio />
     <Clock />
+
+    <!-- Background plants behind the main pot -->
+    <BackgroundPlants />
 
     <!-- Plant on the floor to the left of the desk -->
     <Pot />
