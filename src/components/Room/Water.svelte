@@ -6,50 +6,215 @@
   let ctx;
   let animId;
 
-  /** @type {{ x:number, y:number, r:number, maxR:number, speed:number }[]} */
-  let ripples = [];
+  // ── Height-map water simulation ───────────────────────────────────────
+  const SIM_SCALE = 4; // one sim cell per 4 canvas pixels
+  let simW = 0, simH = 0;
+  let buf1, buf2; // ping-pong height buffers
 
-  let lastTitle = null;
-
-  function spawnRipple(x, y, maxR = 80, speed = 1.2) {
-    ripples.push({ x, y, r: 2, maxR, speed });
+  function initSim(w, h) {
+    simW = Math.ceil(w / SIM_SCALE);
+    simH = Math.ceil(h / SIM_SCALE);
+    buf1 = new Float32Array(simW * simH);
+    buf2 = new Float32Array(simW * simH);
   }
 
+  function stepSim() {
+    for (let y = 1; y < simH - 1; y++) {
+      for (let x = 1; x < simW - 1; x++) {
+        const i = y * simW + x;
+        buf2[i] =
+          (buf1[i - 1] + buf1[i + 1] + buf1[i - simW] + buf1[i + simW]) / 2 -
+          buf2[i];
+        buf2[i] *= 0.982; // damping
+      }
+    }
+    const tmp = buf1;
+    buf1 = buf2;
+    buf2 = tmp;
+  }
+
+  function disturb(x, y, radius, strength) {
+    const cx = Math.floor(x / SIM_SCALE);
+    const cy = Math.floor(y / SIM_SCALE);
+    const sr = Math.ceil(radius / SIM_SCALE);
+    for (let dy = -sr; dy <= sr; dy++) {
+      for (let dx = -sr; dx <= sr; dx++) {
+        if (dx * dx + dy * dy <= sr * sr) {
+          const nx = cx + dx, ny = cy + dy;
+          if (nx > 0 && nx < simW - 1 && ny > 0 && ny < simH - 1) {
+            buf1[ny * simW + nx] += strength;
+          }
+        }
+      }
+    }
+  }
+
+  // ── Visual ripple rings ───────────────────────────────────────────────
+  let rings = [];
+
+  function spawnRing(x, y, maxR = 80, speed = 1.2) {
+    rings.push({ x, y, r: 2, maxR, speed });
+  }
+
+  // ── Text offscreen canvas (cached, redrawn only when book changes) ────
+  let offCanvas = null;
+  let offCtx = null;
+  let textPixels = null; // cached ImageData of the text region
+  let textRegion = null; // { x, y, w, h } bounds within the main canvas
+  let textDirty = false;
+  let currentTitle = "";
+  let currentTagline = "";
+
+  function cacheText(cw, ch) {
+    if (!offCanvas) {
+      offCanvas = document.createElement("canvas");
+      offCtx = offCanvas.getContext("2d");
+    }
+    offCanvas.width = cw;
+    offCanvas.height = ch;
+    offCtx.clearRect(0, 0, cw, ch);
+
+    if (!currentTitle) {
+      textPixels = null;
+      textRegion = null;
+      textDirty = false;
+      return;
+    }
+
+    const cx = cw / 2;
+    const ty = Math.round(ch * 0.38);
+
+    // Title with glow
+    offCtx.save();
+    offCtx.shadowColor = "rgba(90, 200, 220, 0.95)";
+    offCtx.shadowBlur = 18;
+    offCtx.fillStyle = "rgba(165, 232, 242, 0.88)";
+    offCtx.font = 'bold 13px "Supreme", sans-serif';
+    offCtx.textBaseline = "middle";
+    drawSpaced(offCtx, currentTitle.toUpperCase(), cx, ty, 4);
+    offCtx.restore();
+
+    // Tagline with glow
+    if (currentTagline) {
+      offCtx.save();
+      offCtx.shadowColor = "rgba(70, 175, 200, 0.7)";
+      offCtx.shadowBlur = 10;
+      offCtx.fillStyle = "rgba(135, 208, 220, 0.68)";
+      offCtx.font = 'italic 8px "Clash Grotesk", sans-serif';
+      offCtx.textBaseline = "middle";
+      offCtx.textAlign = "center";
+      offCtx.fillText(currentTagline, cx, ty + 22);
+      offCtx.restore();
+    }
+
+    // Cache only the bounding region so the pixel loop stays small
+    const rx = Math.max(0, Math.floor(cx - 430));
+    const ry = Math.max(0, Math.floor(ty - 32));
+    const rw = Math.min(cw - rx, 860);
+    const rh = Math.min(ch - ry, 72);
+    textRegion = { x: rx, y: ry, w: rw, h: rh };
+    textPixels = offCtx.getImageData(rx, ry, rw, rh);
+    textDirty = false;
+  }
+
+  // Manually spaced character rendering (canvas has no letter-spacing API in all browsers)
+  function drawSpaced(c, text, cx, y, spacing) {
+    const chars = [...text];
+    const widths = chars.map((ch) => c.measureText(ch).width);
+    const totalW =
+      widths.reduce((s, w) => s + w, 0) + spacing * (chars.length - 1);
+    let x = cx - totalW / 2;
+    const prev = c.textAlign;
+    c.textAlign = "left";
+    chars.forEach((ch, i) => {
+      c.fillText(ch, x, y);
+      x += widths[i] + spacing;
+    });
+    c.textAlign = prev;
+  }
+
+  // Per-pixel displacement of the cached text region using the height map
+  function drawDistortedText(cw, ch) {
+    if (!textPixels || !textRegion) return;
+
+    const { x: rx, y: ry, w: rw, h: rh } = textRegion;
+    const src = textPixels.data;
+    const dst = ctx.createImageData(rw, rh);
+    const d = dst.data;
+
+    for (let oy = 0; oy < rh; oy++) {
+      for (let ox = 0; ox < rw; ox++) {
+        const wx = rx + ox;
+        const wy = ry + oy;
+
+        // Height-map gradient at this canvas position
+        const si =
+          Math.min(Math.floor(wy / SIM_SCALE), simH - 2) * simW +
+          Math.min(Math.floor(wx / SIM_SCALE), simW - 2);
+        const gx = buf1[si] - buf1[Math.min(si + 1, buf1.length - 1)];
+        const gy = buf1[si] - buf1[Math.min(si + simW, buf1.length - 1)];
+
+        // Sample source pixel at displaced position (clamped to region)
+        const sx = Math.max(0, Math.min(rw - 1, ox + Math.round(gx * 14)));
+        const sy = Math.max(0, Math.min(rh - 1, oy + Math.round(gy * 14)));
+
+        const si4 = (sy * rw + sx) * 4;
+        const di4 = (oy * rw + ox) * 4;
+        d[di4] = src[si4];
+        d[di4 + 1] = src[si4 + 1];
+        d[di4 + 2] = src[si4 + 2];
+        d[di4 + 3] = src[si4 + 3];
+      }
+    }
+
+    ctx.putImageData(dst, rx, ry);
+  }
+
+  // ── Main animation loop ───────────────────────────────────────────────
   function drawFrame() {
     if (!ctx || !canvas) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const w = canvas.width, h = canvas.height;
 
-    for (const rip of ripples) {
+    stepSim();
+    ctx.clearRect(0, 0, w, h);
+
+    // Redraw text cache if book changed
+    if (textDirty) cacheText(w, h);
+
+    // Text rendered with wave-physics distortion
+    drawDistortedText(w, h);
+
+    // Visual ripple rings
+    rings = rings.filter((r) => r.r < r.maxR);
+    for (const rip of rings) {
       const t = rip.r / rip.maxR;
-      const alpha = (1 - t) * 0.5;
       ctx.beginPath();
       ctx.ellipse(rip.x, rip.y, rip.r, rip.r * 0.28, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(150, 220, 230, ${alpha})`;
+      ctx.strokeStyle = `rgba(150, 220, 230, ${(1 - t) * 0.5})`;
       ctx.lineWidth = 1.2;
       ctx.stroke();
       rip.r += rip.speed;
     }
-    ripples = ripples.filter((r) => r.r < r.maxR);
 
     animId = requestAnimationFrame(drawFrame);
   }
 
+  // ── Lifecycle ─────────────────────────────────────────────────────────
   let ambientTimer;
 
   onMount(() => {
     canvas.width = canvas.offsetWidth || 2500;
     canvas.height = canvas.offsetHeight || 240;
     ctx = canvas.getContext("2d");
+    initSim(canvas.width, canvas.height);
     drawFrame();
 
     ambientTimer = setInterval(() => {
       if (!canvas) return;
-      spawnRipple(
-        Math.random() * canvas.width,
-        20 + Math.random() * (canvas.height - 40),
-        35 + Math.random() * 55,
-        0.7 + Math.random() * 0.9
-      );
+      const x = Math.random() * canvas.width;
+      const y = 10 + Math.random() * (canvas.height - 20);
+      disturb(x, y, 8, 100);
+      spawnRing(x, y, 35 + Math.random() * 55, 0.7 + Math.random() * 0.9);
     }, 1600);
   });
 
@@ -58,37 +223,40 @@
     clearInterval(ambientTimer);
   });
 
+  // ── Mouse interaction ─────────────────────────────────────────────────
   function handleMouseMove(e) {
+    if (!canvas) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const scaleX = canvas ? canvas.width / rect.width : 1;
-    const scaleY = canvas ? canvas.height / rect.height : 1;
-    spawnRipple(
-      (e.clientX - rect.left) * scaleX,
-      (e.clientY - rect.top) * scaleY,
-      30,
-      2.2
-    );
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    disturb(x, y, 10, 120);
+    spawnRing(x, y, 30, 2.2);
   }
 
-  // When a new book is selected, burst ripples at the text position
-  $: if ($selectedBook?.title && $selectedBook.title !== lastTitle) {
-    lastTitle = $selectedBook.title;
-    if (canvas) {
+  // ── Reactive: update text + burst ripples when book changes ───────────
+  let lastTitle = "";
+  $: if (($selectedBook?.title ?? "") !== lastTitle) {
+    lastTitle = $selectedBook?.title ?? "";
+    currentTitle = lastTitle;
+    currentTagline = $selectedBook?.tagline ?? "";
+    textDirty = true;
+
+    if (canvas && lastTitle) {
       for (let i = 0; i < 8; i++) {
         setTimeout(() => {
-          spawnRipple(
-            canvas.width * 0.5 + (Math.random() - 0.5) * 350,
-            canvas.height * 0.4 + (Math.random() - 0.5) * canvas.height * 0.25,
-            55 + Math.random() * 45,
-            1.4 + Math.random() * 0.8
-          );
+          if (!canvas) return;
+          const x = canvas.width * 0.5 + (Math.random() - 0.5) * 400;
+          const y =
+            canvas.height * 0.38 + (Math.random() - 0.5) * canvas.height * 0.3;
+          disturb(x, y, 18, 220);
+          spawnRing(x, y, 55 + Math.random() * 45, 1.4 + Math.random() * 0.8);
         }, i * 160);
       }
     }
   }
 </script>
 
-<!-- SVG filter — hidden 0-size element, but the filter is accessible by ID in the document -->
+<!-- SVG filter for the room reflection distortion (GPU-accelerated) -->
 <svg class="water-defs" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter
@@ -128,16 +296,11 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="water" on:mousemove={handleMouseMove}>
 
-  <!-- Deep-water gradient background -->
   <div class="water-bg" />
-
-  <!-- Animated surface highlight -->
   <div class="water-surface" />
-
-  <!-- Caustic shimmer -->
   <div class="caustics" />
 
-  <!-- Abstract room reflection (colour blocks, flipped + wave-distorted) -->
+  <!-- Abstract room reflection — CSS shapes, flipped + SVG-wave distorted -->
   <div class="reflection">
     <div class="refl-wall" />
     <div class="refl-window" />
@@ -148,21 +311,10 @@
     <div class="refl-teal-bar" />
   </div>
 
-  <!-- Reflection fade-out overlay (deeper = darker) -->
   <div class="reflection-fade" />
 
-  <!-- Book text reflected in water -->
-  {#if $selectedBook?.title}
-    <div class="book-reflection">
-      <span class="book-title">{$selectedBook.title}</span>
-      {#if $selectedBook.tagline}
-        <span class="book-tagline">{$selectedBook.tagline}</span>
-      {/if}
-    </div>
-  {/if}
-
-  <!-- Ripple ring canvas drawn on top -->
-  <canvas bind:this={canvas} class="ripple-canvas" />
+  <!-- Canvas: text with height-map distortion + ripple rings -->
+  <canvas bind:this={canvas} class="water-canvas" />
 </div>
 
 <style>
@@ -174,39 +326,31 @@
     pointer-events: none;
   }
 
-  /* ── Container ─────────────────────────────────────────────────────── */
   .water {
     position: absolute;
-    /* floor sits at top:46rem, height:1.8rem → bottom at ~47.8rem       */
     top: 47.8rem;
     left: 0;
     width: 100%;
-    /* room canvas is 1000px = 62.5rem at 16px/rem                       */
     height: calc(62.5rem - 47.8rem);
     overflow: hidden;
     z-index: -1;
     cursor: crosshair;
   }
 
-  /* ── Background ────────────────────────────────────────────────────── */
   .water-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-      #013d42 0%,
-      #012330 50%,
-      #000e1a 100%
-    );
+    background: linear-gradient(180deg, #013d42 0%, #012330 50%, #000e1a 100%);
   }
 
-  /* Thin scrolling highlight right at the surface */
   .water-surface {
     position: absolute;
     top: 0;
     left: -100%;
     width: 300%;
     height: 5px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+      90deg,
       transparent 0%,
       rgba(0, 210, 210, 0.35) 20%,
       rgba(255, 255, 255, 0.15) 50%,
@@ -221,7 +365,6 @@
     to   { transform: translateX(33.33%); }
   }
 
-  /* Soft caustic blobs */
   .caustics {
     position: absolute;
     inset: 0;
@@ -238,27 +381,25 @@
     to   { opacity: 1;   transform: translate(12px, 6px); }
   }
 
-  /* ── Room reflection ───────────────────────────────────────────────── */
   .reflection {
     position: absolute;
     inset: 0;
-    transform: scaleY(-1);           /* flip: bottom of water = room's floor */
+    transform: scaleY(-1);
     filter: url(#water-wave);
     opacity: 0.58;
     will-change: filter;
   }
 
-  /* Wall (aliceblue-family) */
   .refl-wall {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
+    background: linear-gradient(
+      180deg,
       rgba(180, 218, 228, 0.38) 0%,
       rgba(110, 162, 175, 0.18) 100%
     );
   }
 
-  /* Teal floor bar — bottom of reflection = right at the water surface */
   .refl-teal-bar {
     position: absolute;
     bottom: 0;
@@ -268,7 +409,6 @@
     background: rgba(0, 128, 128, 0.7);
   }
 
-  /* Window light blob */
   .refl-window {
     position: absolute;
     bottom: 12px;
@@ -281,7 +421,6 @@
     box-shadow: 0 0 50px rgba(240, 245, 200, 0.07);
   }
 
-  /* Desk strip */
   .refl-desk {
     position: absolute;
     bottom: 10px;
@@ -292,7 +431,6 @@
     border-radius: 1px;
   }
 
-  /* Double shelf lines */
   .refl-shelves {
     position: absolute;
     bottom: 38%;
@@ -303,20 +441,19 @@
     border-top: 3px solid rgba(38, 52, 55, 0.45);
   }
 
-  /* Warm lamp glow */
   .refl-lamp {
     position: absolute;
     bottom: 8px;
     left: 45%;
     width: 180px;
     height: 110px;
-    background: radial-gradient(ellipse at center,
+    background: radial-gradient(
+      ellipse at center,
       rgba(255, 210, 100, 0.14) 0%,
       transparent 65%
     );
   }
 
-  /* Guitar silhouette — narrow vertical bar on the far right */
   .refl-guitar {
     position: absolute;
     bottom: 6px;
@@ -327,11 +464,11 @@
     border-radius: 4px 4px 14px 14px;
   }
 
-  /* Reflection depth fade (deepest water is darkest) */
   .reflection-fade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom,
+    background: linear-gradient(
+      to bottom,
       transparent 25%,
       rgba(0, 10, 20, 0.65) 100%
     );
@@ -339,54 +476,11 @@
     z-index: 1;
   }
 
-  /* ── Book text in water ─────────────────────────────────────────────── */
-  .book-reflection {
+  /* Canvas sits above the CSS layers; text + rings drawn here */
+  .water-canvas {
     position: absolute;
-    top: 22%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    pointer-events: none;
-    filter: url(#water-wave);
-    animation: textDrift 4.5s ease-in-out infinite;
-    z-index: 2;
-    will-change: filter, transform;
-    white-space: nowrap;
-  }
-
-  .book-title {
-    font-family: "Supreme", sans-serif;
-    font-size: 13px;
-    color: rgba(165, 232, 242, 0.82);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    text-shadow:
-      0 0 8px  rgba(90, 200, 220, 0.9),
-      0 0 22px rgba(0, 150, 180, 0.45);
-  }
-
-  .book-tagline {
-    font-family: "Clash Grotesk", sans-serif;
-    font-size: 8px;
-    color: rgba(135, 208, 220, 0.58);
-    letter-spacing: 2px;
-    font-style: italic;
-    text-shadow: 0 0 6px rgba(70, 175, 200, 0.6);
-  }
-
-  @keyframes textDrift {
-    0%,  100% { transform: translateX(-50%) translateY(0px)   skewX(0deg); }
-    30%        { transform: translateX(-50%) translateY(-4px)  skewX(0.6deg); }
-    65%        { transform: translateX(-50%) translateY(3px)   skewX(-0.4deg); }
-  }
-
-  /* ── Ripple canvas ──────────────────────────────────────────────────── */
-  .ripple-canvas {
-    position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
