@@ -21,6 +21,7 @@
   import StickyDetail from "../components/Room/StickyDetail.svelte";
   import Cat from "../components/Room/Cat.svelte";
   import WindowLight from "../components/Room/WindowLight.svelte";
+  import Water from "../components/Room/Water.svelte";
   import { openBook, openSticky } from "../stores/room.js";
 
   // JSON data
@@ -43,14 +44,12 @@
   const DESIGN_HEIGHT = 1000;
 
   let scale = 1;
-  let scaledHeight = DESIGN_HEIGHT;
 
   function updateScale() {
     scale = Math.min(
       window.innerWidth / DESIGN_WIDTH,
       window.innerHeight / DESIGN_HEIGHT,
     );
-    scaledHeight = Math.round(DESIGN_HEIGHT * scale);
   }
 
   onMount(() => {
@@ -64,7 +63,7 @@
 </script>
 
 <!-- Wrapper clips the oversized design canvas to the actual viewport -->
-<div class="room-viewport" style="height: {scaledHeight}px">
+<div class="room-viewport">
   <main
     class="room"
     style="transform: scale({scale}); width: {DESIGN_WIDTH}px; height: {DESIGN_HEIGHT}px;"
@@ -127,6 +126,7 @@
 
     <div class="wall" />
     <div class="floor" />
+    <Water />
 
     <Information />
 
@@ -143,8 +143,10 @@
 <style>
   .room-viewport {
     width: 100%;
+    height: 100vh;
     overflow: hidden;
     position: relative;
+    background: #000e1a;
   }
 
   .room {
