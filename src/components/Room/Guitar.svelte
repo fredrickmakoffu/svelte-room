@@ -137,13 +137,13 @@
   .guitar-room {
     position: absolute;
     top: 31rem;
-    left: 129rem;
+    left: 119rem;
     z-index: 2;
     pointer-events: none;
     /* Guitar leaning face-forward against the right wall, tilted right */
     --z: 1; /* pronounced rightward lean, like propped on a wall */
-    --y: 12; /* small Y so body faces viewer, hints of 3D depth   */
-    --x: -18; /* top leans back toward wall                        */
+    --y: 17; /* small Y so body faces viewer, hints of 3D depth   */
+    --x: -14; /* top leans back toward wall                        */
     --xx: 18deg; /* flat camera — room is a diorama, not top-down     */
     /* cos(-18°) ≈ 0.951, cos(12°) ≈ 0.978 */
     --cos: 0.951;
@@ -152,6 +152,8 @@
     --tx: 0px;
     --ty: 0px;
     --tz: -300px;
+    /* Tuning peg bar thickness — large enough to read at 0.45 scale */
+    --head-config-cube-size: 22px;
   }
 
   /* Scale the entire 3D scene to fit the room's coordinate space */
@@ -177,5 +179,20 @@
   /* Tiny 4px knot rectangle at neck-head joint projects above guitar */
   .g-scene :global(.head-knot) {
     display: none;
+  }
+
+  /* Tuning pegs — un-hide head-back and position it on the back face of the
+     peghead. The 3 sector bars, at --head-config-cube-size depth, render their
+     side faces through the 12-deg Y rotation as 6 visible peg blocks. */
+  .g-scene :global(.head-back) {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    /* head-thickness(-18px) - string-distance/2(-5.5px) = -23.5px */
+    transform: translateZ(-23.5px);
   }
 </style>
