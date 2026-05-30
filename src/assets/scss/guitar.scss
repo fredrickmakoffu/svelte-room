@@ -1,0 +1,789 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   CSS 3D Guitar — adapted from codepen.io/ShadowShahriar/pen/wvWLeWr
+   All rules are intentionally global; this file is imported once in app.scss.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Anti-aliasing */
+[ant]         { box-shadow: 0 0 0 6px rgba(0,0,0,0); }
+[pr-ant] div  { box-shadow: 0 0 0 6px rgba(0,0,0,0); }
+
+/* 3D propagation */
+[t3d]                   { transform-style: preserve-3d; box-shadow: 0 0 0 6px rgba(0,0,0,0); }
+[t3dc], [t3dc] div      { transform-style: preserve-3d; box-shadow: 0 0 0 6px rgba(0,0,0,0); }
+[t3dp]::before,
+[t3dp]::after           { transform-style: preserve-3d; box-shadow: 0 0 0 6px rgba(0,0,0,0); }
+[t3db]::before          { transform-style: preserve-3d; }
+[t3da]::after           { transform-style: preserve-3d; }
+
+/* ── Shape masks (SVG data URIs) ─────────────────────────────────────────── */
+.default-variables {
+  --head-mask: url("data:image/svg+xml,%3Csvg width='66' height='143.13' viewBox='0 0 66 143.13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='m10.485 138.09c-0.92144-2.7742-2.1926-6.9367-3.4731-9.25l-2.328-4.206-1.1134-38.5c-0.61239-21.175-2.0734-44.575-2.5985-52-0.52512-7.425-0.95871-15.638-0.96354-18.25l-0.00878-4.75 1.75-0.04389c0.9625-0.02414 3.4609-0.65416 5.552-1.4s5.4661-2.4677 7.5-3.8263 6.9605-3.2334 10.948-4.1661l7.25-1.6959 7.25 1.6959c3.9875 0.93276 8.9141 2.8075 10.948 4.1661 2.0339 1.3586 5.4089 3.0805 7.5 3.8263 2.0911 0.74588 4.5895 1.3759 5.552 1.4l1.75 0.04389-9e-3 4.75c-5e-3 2.6125-0.43842 10.825-0.96355 18.25-0.52512 7.425-1.4558 30.825-2.0682 52l-1.1134 38.5-2.3281 4.206c-1.2804 2.3133-3.082 6.4758-4.0034 9.25l-1.6751 5.044h-41.679z'/%3E%3C/svg%3E%0A");
+  --head-mask-with-border: url("data:image/svg+xml,%3Csvg width='66' height='143.13' viewBox='0 0 66 143.13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='white' stroke-width='6px' d='m10.485 138.09c-0.92144-2.7742-2.1926-6.9367-3.4731-9.25l-2.328-4.206-1.1134-38.5c-0.61239-21.175-2.0734-44.575-2.5985-52-0.52512-7.425-0.95871-15.638-0.96354-18.25l-0.00878-4.75 1.75-0.04389c0.9625-0.02414 3.4609-0.65416 5.552-1.4s5.4661-2.4677 7.5-3.8263 6.9605-3.2334 10.948-4.1661l7.25-1.6959 7.25 1.6959c3.9875 0.93276 8.9141 2.8075 10.948 4.1661 2.0339 1.3586 5.4089 3.0805 7.5 3.8263 2.0911 0.74588 4.5895 1.3759 5.552 1.4l1.75 0.04389-9e-3 4.75c-5e-3 2.6125-0.43842 10.825-0.96355 18.25-0.52512 7.425-1.4558 30.825-2.0682 52l-1.1134 38.5-2.3281 4.206c-1.2804 2.3133-3.082 6.4758-4.0034 9.25l-1.6751 5.044h-41.679z'/%3E%3C/svg%3E%0A");
+  --head-mask-with-dark-border: url("data:image/svg+xml,%3Csvg width='66' height='143.13' viewBox='0 0 66 143.13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='rgba(169,108,41,0.8)' stroke-width='4px' d='m10.485 138.09c-0.92144-2.7742-2.1926-6.9367-3.4731-9.25l-2.328-4.206-1.1134-38.5c-0.61239-21.175-2.0734-44.575-2.5985-52-0.52512-7.425-0.95871-15.638-0.96354-18.25l-0.00878-4.75 1.75-0.04389c0.9625-0.02414 3.4609-0.65416 5.552-1.4s5.4661-2.4677 7.5-3.8263 6.9605-3.2334 10.948-4.1661l7.25-1.6959 7.25 1.6959c3.9875 0.93276 8.9141 2.8075 10.948 4.1661 2.0339 1.3586 5.4089 3.0805 7.5 3.8263 2.0911 0.74588 4.5895 1.3759 5.552 1.4l1.75 0.04389-9e-3 4.75c-5e-3 2.6125-0.43842 10.825-0.96355 18.25-0.52512 7.425-1.4558 30.825-2.0682 52l-1.1134 38.5-2.3281 4.206c-1.2804 2.3133-3.082 6.4758-4.0034 9.25l-1.6751 5.044h-41.679z'/%3E%3C/svg%3E%0A");
+  --pocket-mask: url("data:image/svg+xml,%3Csvg width='176.09' height='48.226' viewBox='0 0 176.09 48.226' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m55.821 46.891c-12.952-1.1254-23.813-9.6041-36.731-10.996-6.1413-0.90448-12.359-1.0029-18.544-1.4206-0.18231-11.061-0.36461-22.122-0.54692-33.183 43.049-1.8314 86.156-1.228 129.23-1.142 15.628 0.031904 31.249 0.48319 46.863 1.142-0.18231 11.061-0.36461 22.122-0.54692 33.183-11.618 0.5855-23.52 1.013-34.312 5.8768-13.478 6.4881-28.808 6.6152-43.434 7.5947-13.993 0.53813-28.04 0.36312-41.979-1.0551z' fill='white'/%3E%3C/svg%3E%0A");
+  --guitar-mask: url("data:image/svg+xml,%3Csvg width='531' height='675' viewBox='0 0 531 675' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='m219 673.92c-56.851-3.8927-107.11-18.1-138.68-39.202-56.905-38.04-82.814-91.278-79.974-164.33 2.4899-64.05 18.006-103.66 66.165-168.89 39.045-52.891 41.734-68.114 22.616-128.04-18.394-57.65-19.689-76.701-7.246-106.55 21.708-52.067 72.416-69.757 189.88-66.241l21.268 0.63651 1.564 5.5931c13.509 48.309 15.459 53.327 23.943 61.608 16.443 16.051 32.354 17.187 75.458 5.3879 28.691-7.8537 46.919-2.2117 56.461 17.476 7.4743 15.421 6.0848 27.121-8.9213 75.121-18.648 59.65-15.951 79.988 16.641 125.5 44.332 61.905 59.01 92.421 69.505 144.5 2.9683 14.73 2.6536 71.532-0.48765 88-11.296 59.217-52.749 106.35-113.33 128.86-49.022 18.216-119.89 25.693-194.87 20.559z'/%3E%3C/svg%3E%0A");
+  --guitar-mask-with-border: url("data:image/svg+xml,%3Csvg width='531' height='675' viewBox='0 0 531 675' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='white' stroke-width='6px' d='m219 673.92c-56.851-3.8927-107.11-18.1-138.68-39.202-56.905-38.04-82.814-91.278-79.974-164.33 2.4899-64.05 18.006-103.66 66.165-168.89 39.045-52.891 41.734-68.114 22.616-128.04-18.394-57.65-19.689-76.701-7.246-106.55 21.708-52.067 72.416-69.757 189.88-66.241l21.268 0.63651 1.564 5.5931c13.509 48.309 15.459 53.327 23.943 61.608 16.443 16.051 32.354 17.187 75.458 5.3879 28.691-7.8537 46.919-2.2117 56.461 17.476 7.4743 15.421 6.0848 27.121-8.9213 75.121-18.648 59.65-15.951 79.988 16.641 125.5 44.332 61.905 59.01 92.421 69.505 144.5 2.9683 14.73 2.6536 71.532-0.48765 88-11.296 59.217-52.749 106.35-113.33 128.86-49.022 18.216-119.89 25.693-194.87 20.559z'/%3E%3C/svg%3E%0A");
+  --guitar-mask-with-dark-border: url("data:image/svg+xml,%3Csvg width='531' height='675' viewBox='0 0 531 675' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='rgba(169,108,41,0.8)' stroke-width='6px' d='m219 673.92c-56.851-3.8927-107.11-18.1-138.68-39.202-56.905-38.04-82.814-91.278-79.974-164.33 2.4899-64.05 18.006-103.66 66.165-168.89 39.045-52.891 41.734-68.114 22.616-128.04-18.394-57.65-19.689-76.701-7.246-106.55 21.708-52.067 72.416-69.757 189.88-66.241l21.268 0.63651 1.564 5.5931c13.509 48.309 15.459 53.327 23.943 61.608 16.443 16.051 32.354 17.187 75.458 5.3879 28.691-7.8537 46.919-2.2117 56.461 17.476 7.4743 15.421 6.0848 27.121-8.9213 75.121-18.648 59.65-15.951 79.988 16.641 125.5 44.332 61.905 59.01 92.421 69.505 144.5 2.9683 14.73 2.6536 71.532-0.48765 88-11.296 59.217-52.749 106.35-113.33 128.86-49.022 18.216-119.89 25.693-194.87 20.559z'/%3E%3C/svg%3E%0A");
+
+  /* ── Dimension variables ─────────────────────────────────────────────────── */
+  --com: 500px;
+  --width: 380px;
+  --length: 72px;
+  --height: 970px;
+
+  --shadow-min-length: 90px;
+  --shadow-blur-radius: blur(40px);
+
+  --base-height: 480px;
+  --base-thickness: 46;
+  --shade-displacement-modulus: calc(var(--y) * 53 / 180);
+
+  --potential-shift: 0px;
+  --potential-displacement: 43px;
+  --potential-intersection-displacement: -52px;
+  --potential-intersection-length: 42px;
+  --potential-intersection-width: 40px;
+  --potential-intersection-height: 32px;
+  --potential-thickness: 8px;
+
+  --neck-height: 440px;
+  --neck-width: 60px;
+  --string-pocket-width: 40px;
+  --neck-thin-ratio: 13.6;
+  --neck-thin-ratio2: 13.6%;
+  --neck-thickness: 18px;
+  --neck-min-width: calc(var(--neck-width) - var(--neck-width) * var(--neck-thin-ratio) / 50);
+  --neck-angle-ratio: 1deg;
+  --neck-border-size: 3px;
+  --neck-intersection-border-size: 3px;
+  --neck-pattern-size: 100% 23px;
+  --neck-pattern-extension-height: 107px;
+
+  --head-height: 148px;
+  --head-width: 68px;
+  --head-thickness: 18px;
+  --head-thin-ratio: 2%;
+  --head-max-width: 50px;
+  --head-angle: 6deg;
+  --head-config-spacing: 30%;
+  --head-config-length: calc(var(--head-width) + 10px);
+  --head-config-cube-size: 6px;
+  --head-config-cube-shift: -3px;
+  --head-knot-size: 4px;
+  --head-string-connectors-width: 6px;
+  --head-string-connectors-height: 10px;
+  --head-string-connectors-length: 6px;
+  --head-string-connectors-rotate: 45deg;
+
+  --pocket-top: 100px;
+  --string-size: 1.4px;
+  --string-distance: 11px;
+  --string-tilt: 0deg;
+  --string-attachment-top: 20px;
+  --string-height: calc(var(--height) - var(--pocket-top) - var(--string-attachment-top) - var(--head-height));
+  --string-shift-1: 20%;
+  --string-shift-2: 40%;
+  --string-knot-shift: 11px;
+  --string-joiner-circle-diameter: 4px;
+
+  --string-knot-s-width: 46px;
+  --string-knot-s-height: 3px;
+  --string-knot-s-length: 4px;
+  --string-knot-tilt: 6deg;
+
+  --sound-hole-diameter-main: 84px;
+  --sound-hole-diameter-border: 94px;
+  --sound-hole-position: 37%;
+
+  --bottom-pocket-width: 156px;
+  --bottom-pocket-height: 42px;
+
+  /* ── Wood colour preset ────────────────────────────────────────────────── */
+  --preview-color: #9D591A;
+  --sound-hole-border-1: 3px solid rgba(50, 18, 4, 0.9);
+  --sound-hole-border-2: 2px solid rgba(139, 78, 18, 0.55);
+  --texture-neck-front:   linear-gradient(to right, #1e1008 0%, #38200e 45%, #231408 100%);
+  --texture-neck-back:    #160d05;
+  --texture-neck-bottom:  #160d05;
+  --texture-neck-sides:   #1e1008;
+  --texture-base-center:  repeating-linear-gradient(172deg, #7a3b0f 0px, #b06820 8px, #8c4a14 16px, #7a3b0f 24px);
+  --texture-base-front:   repeating-linear-gradient(172deg, #9D591A 0px, #c87828 8px, #aa641e 16px, #9D591A 24px);
+  --texture-base-back:    #5a2808;
+  --texture-head-center:  repeating-linear-gradient(172deg, #7a3b0f 0px, #b06820 8px, #8c4a14 16px, #7a3b0f 24px);
+  --texture-head-front:   repeating-linear-gradient(172deg, #9D591A 0px, #c87828 8px, #aa641e 16px, #9D591A 24px);
+  --texture-head-back:    #5a2808;
+}
+
+/* ── Angle transforms ────────────────────────────────────────────────────── */
+.angle-guy.z-handle { transform: rotateZ(calc(var(--z) * 1deg)); }
+.angle-guy.x-handle { transform: rotateX(calc(var(--x) * 1deg)); }
+.angle-guy.y-handle { transform: rotateY(calc(var(--y) * 1deg)); }
+
+/* ── 3D layer translations ───────────────────────────────────────────────── */
+.nest.guitar-base div {
+  transform: translateZ(calc(var(--i) * 2px - var(--length) / 2));
+}
+.nest.guitar-base div::after {
+  transform: translateZ(1px);
+}
+.guitar .guitar-base-contents {
+  transform: translateZ(calc(var(--length) / 2));
+}
+.guitar-head div {
+  transform: translateZ(calc(var(--i) * -2px));
+}
+.guitar .guitar-head {
+  transform: translate3d(-50%, 0px, 0px) rotateX(var(--head-angle));
+  transform-origin: 50% 100%;
+}
+.guitar-head div::after {
+  transform: translateZ(-1px);
+}
+.guitar .guitar-neck::after {
+  transform: translateZ(calc(var(--neck-thickness) * -1));
+}
+.guitar-neck .sides-tb {
+  transform: rotateX(90deg);
+  transform-origin: 50% 100%;
+}
+.guitar-neck .sides-tb::after {
+  transform: translateX(-50%) translateZ(var(--neck-height));
+}
+.guitar-neck .sides-rl {
+  transform: rotateY(90deg) translateX(100%);
+  transform-origin: 100% 100%;
+}
+.guitar-neck .sides-rl::before,
+.guitar-neck .sides-rl::after {
+  transform: translateY(-100%) rotateX(var(--neck-angle-ratio));
+  transform-origin: 50% 100%;
+}
+.guitar-neck .sides-rl::after {
+  transform: translateZ(calc(var(--neck-width) * -1)) translateY(-100%) rotateX(calc(var(--neck-angle-ratio) * -1));
+}
+
+/* ── Shape equations ─────────────────────────────────────────────────────── */
+.guitar .guitar-neck::before,
+.guitar .guitar-neck::after {
+  clip-path: polygon(
+    calc(var(--neck-thin-ratio) * 1%) 0%,
+    calc(100% - calc(var(--neck-thin-ratio) * 1%)) 0%,
+    100% 100%, 0% 100%
+  );
+}
+.guitar .guitar-neck-mask {
+  clip-path: polygon(
+    calc(var(--neck-thin-ratio2) + var(--neck-border-size)) 0,
+    calc(100% - var(--neck-border-size) - var(--neck-thin-ratio2)) 0,
+    calc(100% - var(--neck-border-size)) calc(100% - var(--neck-border-size)),
+    var(--neck-border-size) calc(100% - var(--neck-border-size))
+  );
+}
+
+/* ── Object + stage ──────────────────────────────────────────────────────── */
+.object3d {
+  top: 0px;
+  position: relative;
+  transform: perspective(var(--p, 1000px))
+             rotateX(var(--xx, 0deg))
+             translate3d(var(--tx, 0px), var(--ty, 0px), var(--tz, 0px));
+  transform-style: preserve-3d;
+  margin: auto;
+}
+
+.main-stage {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 246px;
+  height: 305px;
+}
+
+/* Shadow on the floor */
+.main-stage > .angle-guy::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  filter: var(--shadow-blur-radius);
+  border-radius: 40%;
+  background-color: rgba(0,0,0,0.56);
+  backface-visibility: hidden;
+  transform: translate(-50%, -50%) rotateX(0.01deg);
+  min-width: var(--shadow-min-length);
+  min-height: var(--shadow-min-length);
+  width: calc(var(--width) * var(--cos2));
+  height: calc(var(--height) * var(--cos));
+}
+
+.angle-guy {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+.main-rect {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) translateZ(var(--com));
+  width: var(--width);
+  height: var(--height);
+}
+
+/* ── Guitar root ─────────────────────────────────────────────────────────── */
+.guitar {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.guitar .guitar-base,
+.guitar .guitar-base-contents {
+  position: absolute;
+  left: 0; bottom: 0;
+  width: var(--width);
+  height: var(--base-height);
+  z-index: 300;
+}
+.guitar .guitar-neck,
+.guitar .guitar-neck-mask {
+  position: absolute;
+  left: 50%; top: var(--head-height);
+  width: var(--neck-width);
+  height: var(--neck-height);
+  transform: translateX(-50%);
+}
+.guitar .guitar-head {
+  position: absolute;
+  left: 50%;
+  width: var(--head-width);
+  height: var(--head-height);
+}
+
+/* ── Nests ───────────────────────────────────────────────────────────────── */
+.nest > div {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  display: block;
+  transform-style: preserve-3d;
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.nest > div::before,
+.nest > div::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+.wrap {
+  position: absolute;
+  left: var(--potential-shift);
+  top: 0;
+  width: 100%; height: 100%;
+  display: block;
+  transform: translateZ(var(--potential-displacement));
+}
+
+/* ── Guitar Base (body slices) ───────────────────────────────────────────── */
+.guitar-base.nest div::before,
+.guitar-base.nest div::after {
+  background-color: var(--preview-color);
+  mask-image: var(--guitar-mask);
+  mask-size: cover;
+  mask-position: center;
+  -webkit-mask-image: var(--guitar-mask);
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+  background-image: var(--texture-base-center);
+  background-size: auto;
+  background-position: 0 calc(var(--i) * var(--i) / var(--shade-displacement-modulus) * 1px);
+}
+/* Front slices */
+.guitar-base.nest div:nth-last-child(-n+5)::before,
+.guitar-base.nest div:nth-last-child(-n+5)::after {
+  background-image: var(--guitar-mask-with-border), var(--texture-base-front);
+  background-size: cover, auto;
+  background-position: center, 0 calc(var(--i) * 1px);
+}
+/* Back slices */
+.guitar-base.nest div:nth-child(-n+3)::before,
+.guitar-base.nest div:nth-child(-n+3)::after {
+  background-image: var(--guitar-mask-with-border), var(--texture-base-back);
+  background-size: cover, cover;
+}
+
+/* ── Guitar Neck ─────────────────────────────────────────────────────────── */
+.guitar .guitar-neck::before,
+.guitar .guitar-neck::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+  display: block;
+}
+.guitar-neck .sides-tb {
+  position: absolute;
+  left: 0; top: auto; bottom: 0;
+  width: 100%;
+  height: var(--neck-thickness);
+}
+.guitar-neck .sides-tb::before,
+.guitar-neck .sides-tb::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+  display: block;
+}
+.guitar-neck .sides-tb::after {
+  left: 50%;
+  width: var(--neck-min-width);
+}
+.guitar-neck .sides-rl {
+  position: absolute;
+  top: auto; left: 0px;
+  bottom: -1px;
+  width: 100%; height: 1px;
+}
+.guitar-neck .sides-rl::before,
+.guitar-neck .sides-rl::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: var(--neck-thickness);
+  height: var(--neck-height);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+  display: block;
+}
+/* Neck textures */
+.guitar .guitar-neck-mask {
+  background-image: var(--texture-neck-front);
+  background-size: cover;
+  background-color: #333;
+}
+.guitar .guitar-neck::before { background-color: white; }
+.guitar .guitar-neck::after  { background-image: var(--texture-neck-back); background-size: cover; }
+.guitar-neck .sides-tb::before { background-image: var(--texture-neck-bottom); }
+.guitar-neck .sides-rl::before,
+.guitar-neck .sides-rl::after {
+  background-image: var(--texture-neck-sides);
+  background-size: 100% auto;
+  background-position: left top;
+}
+.guitar .guitar-neck-mask::before,
+.guitar .guitar-neck-mask::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  background-size: var(--neck-pattern-size);
+}
+.guitar .guitar-neck-mask::before {
+  height: var(--neck-pattern-extension-height);
+  z-index: 5;
+}
+.guitar .guitar-neck-mask::after { height: 100%; }
+
+/* ── Guitar Head ─────────────────────────────────────────────────────────── */
+.guitar-head div::before,
+.guitar-head div::after {
+  mask-image: var(--head-mask);
+  mask-size: cover;
+  mask-position: center;
+  -webkit-mask-image: var(--head-mask);
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+  background-color: var(--preview-color) !important;
+  background-image: var(--texture-head-center);
+  background-size: auto 100%;
+  background-position: center;
+}
+/* Front head slices */
+.guitar-head div:nth-last-child(-n+2)::before,
+.guitar-head div:nth-last-child(-n+2)::after {
+  background-image: var(--texture-head-front);
+}
+/* Back head slices */
+.guitar-head div:nth-child(-n+2)::before,
+.guitar-head div:nth-child(-n+2)::after {
+  background-image: var(--head-mask-with-border), var(--texture-head-back);
+  background-size: cover, cover;
+  background-position: center, center;
+}
+
+/* ── Pockets ─────────────────────────────────────────────────────────────── */
+.guitar .pocket {
+  position: absolute;
+  left: 50%;
+  bottom: 100px;
+  width: var(--bottom-pocket-width);
+  height: var(--bottom-pocket-height);
+  transform: translateX(-50%);
+}
+.guitar .pocket > div {
+  transform: translateZ(calc(var(--i) * 2px));
+}
+.guitar .pocketup {
+  width: calc(var(--bottom-pocket-width) - 92px);
+  transform: translateX(-50%) translateZ(6px);
+}
+.guitar .pocket,
+.guitar .string-pocket {
+  bottom: var(--pocket-top);
+}
+
+/* ── String pocket & head wrap ───────────────────────────────────────────── */
+.string-pocket {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateZ(var(--string-distance)) rotateX(var(--string-tilt));
+  width: var(--string-pocket-width);
+  height: calc(var(--height) - var(--pocket-top));
+  transform-origin: 50% 100%;
+}
+.string-pocket > .head-wrap {
+  position: absolute;
+  top: 0; left: 50%;
+  width: var(--head-width);
+  height: var(--head-height);
+  transform: translateX(-50%) rotateX(var(--head-angle));
+  transform-origin: 50% 100%;
+}
+
+/* ── Neck intersection ───────────────────────────────────────────────────── */
+.neck-intersection {
+  position: absolute;
+  left: 50%;
+  --left: -50%;
+  --top: -100%;
+  --zindex: var(--potential-intersection-displacement);
+  --width: var(--potential-intersection-width);
+  --height: var(--potential-intersection-length);
+  --length: var(--potential-intersection-height);
+  --front-color: transparent;
+  --y-axis-bottom-color: transparent;
+}
+.neck-intersection,
+.neck-intersection.reusable-rect .side1,
+.neck-intersection.reusable-rect .side1::before,
+.neck-intersection.reusable-rect .side2 {
+  background-size: var(--neck-intersection-border-size) 100%,
+                   var(--neck-intersection-border-size) 100%,
+                   100% var(--neck-intersection-border-size),
+                   100% var(--neck-intersection-border-size),
+                   100% 100%;
+  background-position: 0 0, right 0, 0 0, 0 bottom, 0 0;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#9D591A, #9D591A),
+                    linear-gradient(#9D591A, #9D591A),
+                    linear-gradient(#9D591A, #9D591A),
+                    linear-gradient(#9D591A, #9D591A),
+                    var(--texture-base-front);
+}
+
+/* ── Sound hole ──────────────────────────────────────────────────────────── */
+.sound-hole,
+.sound-hole-borders {
+  position: absolute;
+  left: 50%;
+  top: var(--sound-hole-position);
+  width: var(--sound-hole-diameter-main);
+  height: var(--sound-hole-diameter-main);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+.sound-hole-borders {
+  width: var(--sound-hole-diameter-border);
+  height: var(--sound-hole-diameter-border);
+  border: var(--sound-hole-border-1);
+  overflow: visible;
+}
+.sound-hole-borders::before,
+.sound-hole-borders::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 116%; height: 116%;
+  border: var(--sound-hole-border-2);
+  border-radius: 50%;
+  display: block;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.sound-hole-borders::after {
+  width: 128%; height: 128%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  opacity: 0.4;
+}
+.sound-hole {
+  background-color: rgba(18, 8, 3, 0.88);
+}
+.sound-hole::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 6px;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: rgba(40, 18, 6, 0.35);
+}
+.sound-hole::after {
+  content: "";
+  position: absolute;
+  left: calc(40px * var(--y) / 180);
+  top: calc(10px * var(--y) / 180);
+  width: 120%; height: 120%;
+  transform: translate(20%, 20%);
+  background: radial-gradient(ellipse at 30% 30%, rgba(255, 200, 100, 0.08), transparent);
+}
+
+/* ── String configuration ────────────────────────────────────────────────── */
+.string-wrap {
+  position: absolute;
+  left: 0; bottom: var(--string-attachment-top);
+  width: 100%; height: 40px;
+  display: block;
+  transform: rotateX(90deg) translateY(100%);
+  transform-origin: 0% 100%;
+}
+.string-wrap .reusable-rect {
+  position: absolute;
+  top: 0;
+  --width: var(--string-size);
+  --length: var(--string-size);
+  --height: var(--string-height);
+  --back-color: transparent;
+  --front-color: transparent;
+  --x-axis-left-color: #c8a850;
+  --x-axis-right-color: #9a7e38;
+  --y-axis-top-color: #b89540;
+  --y-axis-bottom-color: #b89540;
+}
+.string-wrap .reusable-rect:nth-child(2)      { left: var(--string-shift-1); }
+.string-wrap .reusable-rect:nth-child(3)      { left: var(--string-shift-2); }
+.string-wrap .reusable-rect:last-child        { left: auto; right: 0; }
+.string-wrap .reusable-rect:nth-last-child(2) { left: auto; right: var(--string-shift-1); }
+.string-wrap .reusable-rect:nth-last-child(3) { left: auto; right: var(--string-shift-2); }
+
+/* ── String knot ─────────────────────────────────────────────────────────── */
+.guitar .pocket.string-knot {
+  width: var(--string-pocket-width);
+  transform: translateX(-50%) translateZ(var(--string-knot-shift));
+}
+.guitar .pocket.string-knot > .circ {
+  position: absolute;
+  top: 50%;
+  width: var(--string-joiner-circle-diameter);
+  height: var(--string-joiner-circle-diameter);
+  border-radius: 50%;
+  transform: translate(-50%);
+  transform-style: preserve-3d;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.circ > div,
+.circ > div::before,
+.circ > div::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  transform: translateZ(1px);
+  background-color: var(--preview-color);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.circ > div::after { transform: translateZ(2px); }
+.guitar .pocket.string-knot > .circ.cs { transform: translate(50%); }
+.circ.c1  { left: var(--string-shift-1); }
+.circ.c2  { left: var(--string-shift-2); }
+.circ.c22 { right: var(--string-shift-2); }
+.circ.c11 { right: var(--string-shift-1); }
+.circ.c3  { right: 0; }
+.circ.c0  { left: 0; }
+.guitar .pocket.string-knot > .knot-stretch::before {
+  background-image: none;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+.guitar .pocket.string-knot > .knot-stretch {
+  position: absolute;
+  top: 18%; left: 50%;
+  --width: var(--string-knot-s-width);
+  --height: var(--string-knot-s-length);
+  --length: var(--string-knot-s-height);
+  transform: translateX(-50%) rotate(var(--string-knot-tilt));
+}
+
+/* ── Head knot ───────────────────────────────────────────────────────────── */
+.head-knot {
+  position: absolute;
+  left: 50%;
+  --left: -50%;
+  top: var(--head-height);
+  --width: var(--neck-min-width);
+  --height: var(--head-knot-size);
+  --length: var(--head-knot-size);
+}
+
+/* ── Head string connectors ──────────────────────────────────────────────── */
+.head-wrap > .reusable-rect {
+  position: absolute;
+  left: 17%; top: 50%;
+  --top: -70%;
+  --left: -50%;
+  --width: var(--head-string-connectors-width);
+  --height: var(--head-string-connectors-height);
+  --length: var(--head-string-connectors-length);
+  --zindex: calc(var(--string-distance) / -2);
+  --z: var(--head-string-connectors-rotate);
+}
+.head-wrap > .reusable-rect.cs  { left: auto; right: 17%; }
+.head-wrap > .reusable-rect.p1  { top: 30%; }
+.head-wrap > .reusable-rect.p2  { top: 70%; }
+
+/* ── Strings tied (from head to body) ───────────────────────────────────── */
+.strings-tied {
+  position: absolute;
+  left: 50%; top: 0;
+  width: var(--string-pocket-width);
+  height: 100%;
+  transform: translateX(-50%);
+}
+.strings-tied .tie::before,
+.strings-tied .tie::after,
+.strings-tied::before,
+.strings-tied::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: var(--string-size);
+  transform-origin: 50% 100%;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+  background-color: #c8a850;
+}
+.strings-tied .tie { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.strings-tied::before  { left: 0;  transform: rotate(3deg);   height: 44px; }
+.strings-tied::after   { right: 0; transform: rotate(-1deg);  height: 44px; }
+.strings-tied .tie1::before { left: var(--string-shift-1);  transform: rotate(-3deg);   height: 75px; }
+.strings-tied .tie1::after  { right: var(--string-shift-1); transform: rotate(4deg);    height: 75px; }
+.strings-tied .tie2::before { left: var(--string-shift-2);  transform: rotate(-6.5deg); height: 107px; }
+.strings-tied .tie2::after  { right: var(--string-shift-2); transform: rotate(7.5deg);  height: 107px; }
+
+/* ── Head string connectors — hidden at room scale (project as floating dots) */
+.head-wrap > .reusable-rect { display: none; }
+
+/* ── Head back (tuning pegs) ─────────────────────────────────────────────── */
+/* Hidden — at room scale these project as floating specks in 3D space. */
+.head-back { display: none; }
+
+.head-back-UNUSED {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  transform: translateZ(calc(var(--head-thickness) * -1 - var(--string-distance) / 2));
+}
+.head-back .sector {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--head-config-length);
+  height: 4px;
+}
+.head-back .sector:first-child { top: var(--head-config-spacing); }
+.head-back .sector:last-child  { top: auto; bottom: var(--head-config-spacing); transform: translate(-50%, 50%); }
+.head-back .sector > .reusable-rect {
+  position: absolute;
+  --left: -50%;
+  left: 50%;
+  top: var(--head-config-cube-shift);
+  --width: var(--head-config-length);
+  --height: var(--head-config-cube-size);
+  --length: var(--head-config-cube-size);
+  --back-color:         #5a4015;
+  --front-color:        #7a5520;
+  --x-axis-left-color:  #4a3010;
+  --x-axis-right-color: #4a3010;
+  --y-axis-top-color:   #4a3010;
+  --y-axis-bottom-color:#4a3010;
+}
+
+/* ── Guitar-context default: all reusable-rects use wood tones ───────────── */
+/* Catches tuning-peg cubes, head connectors, knot-stretch, etc. */
+.guitar .reusable-rect {
+  --back-color:          #7a4a15;
+  --front-color:         #8a5a20;
+  --x-axis-left-color:   #6a3a10;
+  --x-axis-right-color:  #6a3a10;
+  --y-axis-top-color:    #5a3010;
+  --y-axis-bottom-color: #5a3010;
+}
+
+/* ── Reusable 3D rectangle ───────────────────────────────────────────────── */
+.reusable-rect {
+  --x: 0deg; --y: 0deg; --z: 0deg;
+  --width: 30px; --height: 30px; --length: 30px;
+  --left: 0px; --top: 0px; --zindex: 0px;
+  --default-color: white;
+  --back-color: red;
+  --front-color: green;
+  --x-axis-left-color: orange;
+  --x-axis-right-color: yellow;
+  --y-axis-top-color: black;
+  --y-axis-bottom-color: blue;
+  position: absolute;
+  left: 0%; top: 0%;
+  width: var(--width);
+  height: var(--length);
+  background: var(--back-color, var(--default-color));
+  display: inline-block;
+  transform: rotateX(var(--x, 0deg)) rotateY(var(--y, 0deg)) rotateZ(var(--z, 0deg))
+             translate3d(var(--left, 0px), var(--top, 0px), var(--zindex, 0px));
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+.reusable-rect::before {
+  transform: translateZ(var(--height));
+  background: var(--front-color, var(--default-color));
+}
+.reusable-rect .sides {
+  position: absolute; left: 0; top: 0;
+  display: block;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}
+.reusable-rect .side1 {
+  width: var(--height); height: var(--length);
+  transform: rotateY(-90deg);
+  transform-origin: 0% 0%;
+  background: var(--x-axis-left-color, var(--default-color));
+}
+.reusable-rect .side1::before {
+  background: var(--x-axis-right-color, var(--default-color));
+  transform: translateZ(calc(var(--width) * -1));
+}
+.reusable-rect .side2 {
+  width: var(--width); height: var(--height);
+  transform: rotateX(90deg);
+  transform-origin: 0% 0%;
+  background: var(--y-axis-top-color, var(--default-color));
+}
+.reusable-rect .side2::before {
+  background: var(--y-axis-bottom-color, var(--default-color));
+  transform: translateZ(calc(var(--length) * -1));
+}
+.reusable-rect::before,
+.reusable-rect .side1::before,
+.reusable-rect .side2::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  display: block;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0);
+}

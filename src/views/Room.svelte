@@ -16,6 +16,7 @@
   import Pot from "../components/Room/Pot.svelte";
   import DeskLamp from "../components/Room/DeskLamp.svelte";
   import Stickies from "../components/Room/Stickies.svelte";
+  import Guitar from "../components/Room/Guitar.svelte";
   import StickyDetail from "../components/Room/StickyDetail.svelte";
   import { openBook, openSticky } from "../stores/room.js";
 
@@ -111,6 +112,9 @@
 
     <!-- Sticky notes on the wall, right of the window -->
     <Stickies />
+
+    <!-- Guitar leaning against the far-right wall -->
+    <Guitar />
 
     <div class="wall" />
     <div class="floor" />
