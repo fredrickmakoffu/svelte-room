@@ -116,24 +116,24 @@
     height: 8px;
     width: 38px;
     border-radius: 10px;
-    background-color: #fdf9de;
+    background-color: #2f363e;
     box-shadow:
-      0 8px 0 #fdf9de,
-      0 16px 0 #fdf9de,
-      0 24px 0 #fdf9de,
-      0 32px 0 #fdf9de,
-      0 40px 0 #fdf9de,
-      0 48px 0 #fdf9de,
-      0 56px 0 #fdf9de,
-      0 64px 0 #fdf9de,
-      0 72px 0 #fdf9de,
-      0 80px 0 #fdf9de,
-      0 88px 0 #fdf9de,
-      0 96px 0 #fdf9de,
-      0 104px 0 #fdf9de,
-      0 112px 0 #fdf9de,
-      0 120px 0 #fdf9de,
-      0 128px 0 #fdf9de;
+      0 8px 0 #2f363e,
+      0 16px 0 #2f363e,
+      0 24px 0 #2f363e,
+      0 32px 0 #2f363e,
+      0 40px 0 #2f363e,
+      0 48px 0 #2f363e,
+      0 56px 0 #2f363e,
+      0 64px 0 #2f363e,
+      0 72px 0 #2f363e,
+      0 80px 0 #2f363e,
+      0 88px 0 #2f363e,
+      0 96px 0 #2f363e,
+      0 104px 0 #2f363e,
+      0 112px 0 #2f363e,
+      0 120px 0 #2f363e,
+      0 128px 0 #2f363e;
   }
 
   /* ── Cat container ──────────────────────────────────────── */
